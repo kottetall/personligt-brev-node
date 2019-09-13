@@ -1,0 +1,19 @@
+{
+  "name": "personligt-brev-node",
+  "version": "0.0.1",
+  "description": "Ett mallsystem som skapar frön till personliga brev, baserat på annonsen",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "personligt brev",
+    "arbetsförmedlingen"
+  ],
+  "author": "Alexander Hedling",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
