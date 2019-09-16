@@ -7,30 +7,14 @@ const port = 3000
 require("dotenv").config() //hämtar ev env.variabler som används - ex api-nycklar. Se coding train 3.4
 
 // för att hämta tar man process.env.<NAMN>
-const api_key = process.env.API_KEY
-console.log(api_key)
+const api_key = process.env.API_KEY //nyckel för AF:s tjänster
+
+// mer info om API:t här; https://jobsearch.api.jobtechdev.se/
+// nya vägen är https://jobsearch.api.jobtechdev.se/ad/<ANNONSID> med nyckeln som header: "api-key:<NYCKEL>"
 
 
-let tid = Date.now()
-
-const testData = {
-    meddelande: "gick bra",
-    tid: tid
-}
-
-
-
-
-
-
-// !!!! TESTDATABAS !!!!
-const databas = new Datastore("databas.db")
-databas.loadDatabase() // laddar in filen och skapar den om den inte redan finns
-databas.insert(testData) // lägger in data i databasen, JSON
-databas.find({}, (err, data) => {
-    // console.log(data)
-}) // hämtar allt när {} är tomt, man kan lägga in olika sökkriterier. Gås igenom lite på coding train 2.4
-// !!!! TESTDATABAS !!!!
+app.use(Express.static("public"))
+app.use(Express.json())
 
 // för att spara annonser man hämtat tidigare så man kan hämta dem istället för genom API:n - tänk minicache
 const tidigareAnnonser = new Datastore("tidigareAnnonser.db")
@@ -39,17 +23,36 @@ tidigareAnnonser.loadDatabase()
 app.listen(port, () => {
     console.log(`Lyssnar genom port: ${port}`)
 })
-app.use(Express.static("public"))
 
-// testgrej för att se så server och sida kan prata med varandra - klient "hämtar" meddelandet
-app.get("/test", (req, res) => {
-    res.send(testData)
-    // res.json(testData) //oklart vilken som gäller, json används av codingtrain
+app.post("/annons", (req, res) => {
+    // för att ta emot annonsid
+
+
+    // !!! FÖRBÄTTRA VALIDERINGEN AV DET SOM SKICKAS!!!!
+
+    // funktion för att ta emot annonsid
+    const testannons = req.body.annonsid
+
+    if (arBaraNummer(testannons)) {
+        redanHamtad(testannons, res)
+    } else {
+        console.log(`*** Annonsid:t - ${testannons} innehöll inte bara siffror ***`)
+        res.send({
+            "meddelande": "Ange bara siffror"
+        })
+    }
 })
 
 //FUNKTIONER SOM SKA FLYTTAS TILL EGNA FILER 
 
-function redanHamtad(annons) {
+function arBaraNummer(nummer) {
+    //kollar om strängen enbart innehåller "nummer" genom att skicka "falskt" om den hittar något som inte är ett nummer
+    const regex = /\D/
+    return !regex.test(nummer)
+}
+
+function redanHamtad(annons, res) {
+
     tidigareAnnonser.find({
         annonsId: annons
     }, async (err, data) => {
@@ -58,22 +61,28 @@ function redanHamtad(annons) {
             console.log(err)
         } else if (data.length !== 0) {
             console.log("\tAnnonsen har redan hämtats en gång och tas därför ur databasen...")
-            annonsen = data[0].annonsen
+            annonsen = await data[0].annonsen
         } else {
             console.log("\tAnnonsen finns inte, därför hämtas den och sparas...")
             annonsen = await hamtaAnnons(annons)
         }
 
-        // "annonsen" skickas sedan till klienten
-        // console.log(annonsen)
+        // skickas till klienten
+        res.send(annonsen)
+
     })
 }
 
-
 async function hamtaAnnons(annons) {
 
-    const url = `https://api.arbetsformedlingen.se/af/v0/platsannonser/${annons}`
-    const data = await fetch(url)
+    // const url = `https://api.arbetsformedlingen.se/af/v0/platsannonser/${annons}` //gamla API:n
+    const url = `https://jobsearch.api.jobtechdev.se/ad/${annons}`
+    const options = {
+        headers: {
+            "api-key": api_key
+        }
+    }
+    const data = await fetch(url, options)
     const json = await data.json()
     if (json.message !== "Platsannons saknas") {
         tidigareAnnonser.insert({
@@ -84,13 +93,3 @@ async function hamtaAnnons(annons) {
     }
     return json
 }
-
-//FUNKTIONER SOM SKA FLYTTAS TILL EGNA FILER 
-
-
-const testannons = "8448916"
-// const testannons = "7448916" //test av felaktigt nummer
-
-redanHamtad(testannons)
-
-//TESTKÖRNINGAR
