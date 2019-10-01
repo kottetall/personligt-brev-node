@@ -138,6 +138,13 @@ async function hamtaJobbAnnons(minMax) {
 
     const annonsId = document.querySelector(".annonsId").value || 8426124
 
+    //NYA
+    skickaTillServer(annonsId)
+    //NYA
+
+
+    //GAMMALT FRÅN PROTO
+
     let url = "https://api.arbetsformedlingen.se/af/v0/platsannonser/" + annonsId;
 
     const data = await fetch(url)
@@ -162,6 +169,8 @@ async function hamtaJobbAnnons(minMax) {
         case 404:
             alert(`AnnonsID: "${annonsId}", verkar inte finnas.\n\nKontrollera så du angett rätt ID`)
     }
+
+    //GAMMALT FRÅN PROTO
 }
 
 async function hamtaGrund() {
@@ -352,6 +361,29 @@ async function uppdateraAllt() {
 
     } catch (error) {
         const msg = `Pga felaktigt annonsID går det inte att uppdatera dokumentet.`
+        console.log(msg)
+    }
+}
+
+async function skickaTillServer(annonsId) {
+
+    const dataSkickas = {
+        annonsid: annonsId
+    }
+
+    const fetchOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataSkickas)
+    }
+
+    const svar = await fetch("annonsid/", fetchOptions)
+    const msg = await svar.json()
+    if (msg["error"]) {
+        console.log(msg["error"])
+    } else {
         console.log(msg)
     }
 }
