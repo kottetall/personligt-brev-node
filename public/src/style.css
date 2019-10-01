@@ -1,0 +1,293 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 12pt;
+  line-height: 1.25;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin-bottom: 20vh;
+  background: #444;
+}
+
+h1 {
+  margin: 0.5cm 0;
+  font-size: 1.5em;
+}
+
+input {
+  text-align: center;
+  border-radius: 10px;
+  padding: 5px 32px;
+  border-style: solid;
+  border-color: #fff;
+}
+
+input:hover, input:focus {
+  border-color: #666;
+}
+
+button {
+  border-radius: 10px;
+  padding: 5px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+}
+
+button:hover, button:focus {
+  text-decoration: underline;
+}
+
+header,
+footer {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  padding: 0 2.5cm;
+  color: #888;
+}
+
+header {
+  top: 1.25cm;
+}
+
+header span,
+footer span {
+  display: inline-block;
+  font-size: 0.8em;
+  width: calc((100% - 5cm) / 3);
+}
+
+footer {
+  bottom: 1.25cm;
+}
+
+article {
+  margin-bottom: 0.5cm;
+}
+
+/* MODAL */
+.modalforklaring {
+  position: absolute;
+  display: none;
+  width: 80vw;
+  left: 50%;
+  top: 10%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background: gainsboro;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 2%;
+  text-align: center;
+  z-index: 50;
+}
+
+.modalforklaring button {
+  width: 100px;
+  border: 1px solid #000;
+}
+
+.verktyg {
+  position: absolute;
+  padding: 0 21px;
+  top: 10vh;
+  z-index: 5;
+  background: #000;
+  border-radius: 0 10px 10px 0;
+}
+
+.verktyg ul {
+  list-style: none;
+}
+
+.verktyg ul li {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.verktyg ul li:hover, .verktyg ul li:focus {
+  text-decoration: underline;
+}
+
+.verktyg ul li a {
+  color: #000;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.doljVisa {
+  outline: none;
+  border-radius: 100%;
+  padding: 10px 15px;
+  color: #fff;
+  background: #000;
+  border: 1px solid #000;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  top: 50%;
+  left: 100%;
+}
+
+.doljVisa:hover, .doljVisa:focus {
+  border-color: #fff;
+}
+
+.dold {
+  right: calc(100% - 21px);
+}
+
+.jobbtitel,
+.kontakt {
+  text-align: center;
+}
+
+.markning,
+.sidnr {
+  text-align: right;
+}
+
+.val {
+  margin: 2vh auto;
+  text-align: center;
+}
+
+.val div {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+
+.annonsId {
+  border: 1px solid #000;
+}
+
+.hamtaAnnons {
+  position: absolute;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  top: 50%;
+  right: 0;
+  width: 50px;
+  border-radius: 0 10px 10px 0;
+}
+
+.hamtaAnnons:hover {
+  border: 1px solid #000;
+}
+
+.sida {
+  /* ändra outline när det går att tabba runt inne i sidan*/
+  outline: none;
+  /* ändra outline när det går att tabba runt inne i sidan*/
+  background: #fff;
+  position: relative;
+  height: 297mm;
+  width: 210mm;
+  padding: 2.5cm;
+  border: 1px solid #444;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.beskrivning {
+  text-transform: uppercase;
+  font-size: 0.75em;
+  background: #444;
+  color: #fff;
+  text-align: center;
+  border-radius: 5%;
+  padding: 2px;
+}
+
+.tom {
+  position: relative;
+  margin-right: 0.2em;
+  font-weight: bolder;
+  font-style: italic;
+}
+
+.tom:hover {
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 0 4px;
+}
+
+.tom:hover::after {
+  content: "Du har ännu inte skrivit något om detta ord!";
+  position: absolute;
+  background: #000;
+  color: #fff;
+  font-size: 0.7em;
+  width: 235px;
+  padding: 2px;
+  z-index: 20;
+  left: 0;
+  top: 100%;
+}
+
+.motivering {
+  margin-right: 0.2em;
+  position: relative;
+  -webkit-transition: background 0.25s ease;
+  transition: background 0.25s ease;
+}
+
+.motivering:hover {
+  background: #eee;
+  -webkit-transition: background 0.25s ease;
+  transition: background 0.25s ease;
+}
+
+.motivering:hover .forklaring {
+  display: inline;
+}
+
+.motivering .forklaring {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: -1.25em;
+  background: #666;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 0.8em;
+  padding: 0 5px;
+  border-radius: 10px;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .sida,
+  .sida * {
+    visibility: visible;
+    border: none;
+  }
+  .motivering:hover .forklaring {
+    display: none;
+  }
+  .beskrivning {
+    display: none;
+  }
+  .tom {
+    display: none;
+  }
+  .sida {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* oklart varför förändringen nedan behövs */
+    height: 315mm;
+  }
+}
+/*# sourceMappingURL=style.css.map */

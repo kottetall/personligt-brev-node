@@ -5,25 +5,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="author" content="Alexander Hedling | kottetall">
-    <link rel="stylesheet" href="src/css/style.css">
-    <title>Personligtbrev - generator</title>
+    <script defer src="https://kit.fontawesome.com/f8762344d3.js"></script>
+    <link rel="stylesheet" href="src/style.css">
+    <title>Personligt brev - generator</title>
 </head>
 
 <body>
 
+    <section class="modalforklaring">
+        <div class="modaltext">
+            <h1>Välkommen</h1>
+            <p>Detta är ett "proof of concept" rörande en generator av personliga brev till jobbansökningar. <br>
+                <br>
+                För att använda verktyget behöver du hitta id:numret på en platsannons hos Arbetsförmedlingen. Om du
+                inte
+                redan har ett kan du finna det <a
+                    href="https://arbetsformedlingen.se/platsbanken/annonser?pd=0&sort=1&page=1&loc=&prof=FRITEXT::&profAr="
+                    target="_blank">här.</a> <br>
+                <br>
+                När du har annonsid:t skriver du in det i fältet längst upp på sidan och trycker sedan på pennan eller
+                <kbd>"enter"</kbd>.<br>
+                <br>
+                Dokumentet kommer då att uppdateras med text utifrån innehållet i annonsen. Denna text är innehållslös
+                och
+                är enbart tänkt att visa på hur verktyget kan fungera. I en "riktig" version är texterna längre och
+                innehåller information som är av nytta för annonsen. <br>
+                <br>
+                Skulle du ha några frågor eller funderingar, får du jättegärna kontakta mig. <br>
+                Tack för din tid! <br>
+                / Alexander - <a href="https://www.kottetall.com" target="_blank">Kottetall</a><br>
+                <br>
+                <button>OK</button>
+            </p>
+        </div>
+        <div class="modalbakgrund"></div>
+    </section>
+
+    <section class="verktyg dold" data-dold="true">
+        <ul>
+
+            <li>
+                <a href="#" class="ansok" target="_blank">ansök</a>
+            </li>
+            <li>
+                <a href="#" class="besokAnnons" target="_blank">besök annons</a>
+            </li>
+        </ul>
+        <button class="doljVisa"><i class="fas fa-chevron-right"></i></button>
+    </section>
+
+    <section class="val">
+        <div>
+            <input type="text" class="annonsId" placeholder="AnnonsID(Af)">
+            <button class="hamtaAnnons" title="Uppdatera allt"><i class="fas fa-pen-alt"></i></button>
+        </div>
+    </section>
+    <section class="sida" contenteditable="true">
+        <header>
+            <span class="foretagsNamn">tom</span>
+            <span class="jobbtitel">sökt position/yrke</span>
+            <span class="markning">ev refnr</span>
+        </header>
+        <h1 class="rubrik">Rubrik</h1>
 
 
-    <h1>Test om det funkar</h1>
 
-    <label>Här skriver du in ID-numret på annonsen <input type="text" class="annonsid" name="annonsid"
-            placeholder="XXXXXXX"></label>
-    <button class="hamta" name="Hämta annonsen">Hämta</button>
+        <div class="brodText">
 
+            <article class="ommig">
+                <span class="beskrivning">Om Mig</span>
+                <div class="text"></div>
+            </article>
 
+            <article class="egenskaper">
+                <span class="beskrivning">egenskaper</span>
+                <div class="text"></div>
+            </article>
 
-    <script src="src/js/funktioner.js"></script>
-    <script src="src/js/app.js"></script>
+            <article class="erfarenheter">
+                <span class="beskrivning">erfarenheter</span>
+                <div class="text"></div>
+            </article>
+
+            <article class="kunskaper">
+                <span class="beskrivning">kunskaper</span>
+                <div class="text"></div>
+            </article>
+
+            <article class="flytt">
+                <span class="beskrivning">flytt</span>
+                <div class="text"></div>
+            </article>
+
+            <article class="halsning">
+                <span class="beskrivning">hälsning</span>
+                <div class="text"></div>
+            </article>
+
+        </div>
+
+        <footer>
+            <span class="egenSida">tom</span>
+            <span class="kontakt">kontaktuppgifter</span>
+            <span class="sidnr">sidnummer</span>
+        </footer>
+    </section>
+
+    <!-- FÖR TEST -->
+    <script src="src/dummyText.js"></script>
+    <!-- FÖR TEST -->
+
+    <script src="src/funktioner.js"></script>
+    <script src="src/app.js"></script>
 </body>
 
 </html>
