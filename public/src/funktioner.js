@@ -1,5 +1,23 @@
 "use strict"
 
+function SetFetchOptions(body, method = "GET") {
+    let errorExists = false
+    if (typeof body !== "object") {
+        throw new Error(`"${body}" är inget objekt. Body behöver vara i JSON-/objektformat.`)
+    }
+
+    if (method !== "GET" && method !== "POST") {
+        throw new Error(`"${method}" är inte en giltig metod`)
+    }
+
+    this.method = method
+    this.headers = {
+        "Content-Type": "application/json"
+    }
+    this.body = JSON.stringify(body)
+
+}
+
 function dummyText() {
 
     // fyller alla fält. Används vid text och för att visa
@@ -301,9 +319,6 @@ function uppdateraHelaDokumentet(annonsBearbetad, grunder) {
     rubrik.textContent = grunder.grunduppgifter.rubrik
     halsning.textContent = `${grunder.grunduppgifter.halsning} // ${grunder.grunduppgifter.namn}`
 
-
-
-
     const matchadeKompetenser = annonsBearbetad.matchadeKompetenser
 
     // DYNAMISK TEXT //
@@ -342,27 +357,31 @@ function uppdateraHelaDokumentet(annonsBearbetad, grunder) {
 }
 
 async function uppdateraAllt() {
-    // hämtar sökandes uppgifter
-    const grunder = await hamtaGrund()
+    const annonsId = document.querySelector(".annonsId").value
+    skickaTillServer(annonsId)
 
-    try {
+    //GAMMALT
+    // // hämtar sökandes uppgifter
+    // const grunder = await hamtaGrund()
 
-        // hämtar annonsens uppgifter
-        const annonsBearbetad = await hamtaJobbAnnons(grunder.minMax)
+    // try {
 
-        // jämför annons och sökande
-        jamforaAnnonsGrund(annonsBearbetad, grunder)
-        // Uppdaterar och fyller i allt
-        uppdateraHelaDokumentet(annonsBearbetad, grunder)
-        // döljer verktygsmenyn
-        doljVisaVerktyg()
+    //     // hämtar annonsens uppgifter
+    //     const annonsBearbetad = await hamtaJobbAnnons(grunder.minMax)
 
-        // document.querySelector(".annonsId").value = ""
+    //     // jämför annons och sökande
+    //     jamforaAnnonsGrund(annonsBearbetad, grunder)
+    //     // Uppdaterar och fyller i allt
+    //     uppdateraHelaDokumentet(annonsBearbetad, grunder)
+    //     // döljer verktygsmenyn
+    //     doljVisaVerktyg()
 
-    } catch (error) {
-        const msg = `Pga felaktigt annonsID går det inte att uppdatera dokumentet.`
-        console.log(msg)
-    }
+    //     // document.querySelector(".annonsId").value = ""
+
+    // } catch (error) {
+    //     const msg = `Pga felaktigt annonsID går det inte att uppdatera dokumentet.`
+    //     console.log(msg)
+    // }
 }
 
 async function skickaTillServer(annonsId) {
@@ -371,13 +390,8 @@ async function skickaTillServer(annonsId) {
         annonsid: annonsId
     }
 
-    const fetchOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dataSkickas)
-    }
+    const fetchOptions = new SetFetchOptions(dataSkickas, "POST")
+    console.log(fetchOptions)
 
     const svar = await fetch("annonsid/", fetchOptions)
     const msg = await svar.json()

@@ -20,11 +20,14 @@ async function hamtaAnnons(annons, tidigareAnnonser) {
     }
     const data = await fetch(url, options)
     const json = await data.json()
-    if (json.message === "Ad not found") {
-        const errMsg = `\tAnnonsen med id - ${annons} - kan inte hittas`
+    if (json.message) {
+        // oklart vilka former av meddelanden som kan skickas från API:n
+        if (json.message.includes("Ad not found")) {
+            const errMsg = `\tAnnonsen med id - ${annons} - kan inte hittas`
 
-        return {
-            error: errMsg
+            return {
+                error: errMsg
+            }
         }
     } else {
         tidigareAnnonser.insert({
@@ -36,7 +39,7 @@ async function hamtaAnnons(annons, tidigareAnnonser) {
     }
 }
 
-module.exports.redanHamtad = (annons, tidigareAnnonser) => {
+function redanHamtad(annons, tidigareAnnonser) {
 
     return new Promise((resolve, reject) => {
         tidigareAnnonser.find({
@@ -57,4 +60,7 @@ module.exports.redanHamtad = (annons, tidigareAnnonser) => {
 
         })
     })
+}
+module.exports = {
+    redanHamtad
 }

@@ -1,20 +1,9 @@
 {
     "grunduppgifter": {
-        "kontaktuppgifter": "John Doe - 07XXXXXXXX",
-        "rubrik": "En rubrik som fångar intresse",
-        "halsning": "En trevlig hälsningsfras",
-        "namn": "John Doe",
-        "flytt": "Detta läggs till om jobbet som annonsen handlar om inte ligger i Skaraborg",
-        "staderSkaraborg": [
-            "Mariestad",
-            "Gullspång",
-            "Töreboda",
-            "Götene",
-            "Skara",
-            "Lidköping",
-            "Skövde",
-            "Vara"
-        ]
+        "kontaktuppgifter": "",
+        "rubrik": "",
+        "halsning": "",
+        "namn": ""
     },
 
     "text": {
@@ -206,5 +195,4 @@
             "händig": "händig"
         }
     }
-
 }

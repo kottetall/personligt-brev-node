@@ -1,4 +1,4 @@
 public/tmp/
 node_modules/
+databaser/
 .env
-.db
