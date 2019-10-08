@@ -12,17 +12,6 @@ window.onload = () => {
 
     document.querySelector(".doljVisa").addEventListener("click", doljVisaVerktyg)
 
-    if (!devMiljo()) {
-        document.querySelector(".modalforklaring").style.display = "block"
-        document.querySelector(".modalforklaring button").addEventListener("click", () => {
-            document.querySelector(".modalforklaring").style.display = "none"
-        }, {
-            passive: true
-        })
-    }
-
-    // dummyText()
-
     document.querySelector(".new-user").addEventListener("click", async (e) => {
         const namn = prompt("Vad är ditt namn?") || "test"
 
