@@ -25,6 +25,47 @@
         <button class="doljVisa"><i class="fas fa-chevron-right"></i></button>
     </section>
 
+    <!-- // TODO: Snygga till!-->
+
+    <section class="uppgifter">
+        <div class="input">
+            <form action="#" class="input-form">
+                <div>
+                    <label for="kategori">Kategori</label>
+                    <select name="kategori" id="kategori"></select>
+                </div>
+                <div>
+                    <label for="nyckelord">Nyckelord</label>
+                    <input type="text" name="nyckelord" , id="nyckelord">
+                </div>
+                <div>
+                    <label for="brodText">Text</label>
+                    <textarea name="brodText" id="brodText"
+                        placeholder="Här fyller du i texten som ska komma upp när nyckelordet finns i annonsen"
+                        rows="4"></textarea>
+                </div>
+                <button class="uppdatera">Uppdatera</button>
+            </form>
+        </div>
+        <hr>
+        <div class="oversyn">
+            <label for="nuvarande">Välj ett av orden du redan lagt in för att granska texten</label>
+            <select name="nuvarande" id="nuvarande">
+                <option value=""></option>
+                <!-- Övriga val läggs in via JS -->
+            </select>
+            <p class="textNuvarande">
+                <!-- texten fylls i via JS -->
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur vero mollitia cumque omnis
+                asperiores!
+                Eos, reprehenderit. Minima consectetur rem suscipit consequatur voluptatum adipisci nulla tenetur
+                possimus
+                accusamus corporis. Eos, ex?
+            </p>
+        </div>
+    </section>
+
+
     <section class="val">
         <button class="update-user">Uppdatera användare</button>
         <div>
@@ -32,6 +73,9 @@
             <button class="hamtaAnnons" title="Uppdatera allt"><i class="fas fa-pen-alt"></i></button>
         </div>
         <button class="new-user">Ny användare</button>
+        <button class="user-data">Hämta användardata</button>
+        <button class="clear-data">Rensa lokal data</button>
+        <button class="test-user">Skapa testanvändare Front</button>
     </section>
     <section class="sida" contenteditable="true">
         <header>

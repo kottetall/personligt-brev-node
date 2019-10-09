@@ -38,7 +38,7 @@ app.post("/annonsid", async (req, res) => {
     // för att ta emot annonsid
     console.log("mottaget")
 
-    // !!! FÖRBÄTTRA VALIDERINGEN AV DET SOM tas emot!!!!
+    //TODO: !!! FÖRBÄTTRA VALIDERINGEN AV DET SOM tas emot!!!!
 
     // funktion för att ta emot annonsid
     const annonsId = req.body.annonsid
@@ -47,7 +47,6 @@ app.post("/annonsid", async (req, res) => {
         if (annonsen["error"]) {
             console.log(annonsen["error"])
         }
-
         res.send(annonsen)
 
     } else {
@@ -93,23 +92,41 @@ app.post("/ny", async (req, res) => {
     })
 })
 
+app.post("/hamtaAnvandare", (req, res) => {
+    const {
+        id
+    } = req.body
+
+    anvandareDatabas.find({
+        "_id": id
+    }, (err, docs) => {
+        if (err) {
+            console.error(err)
+        } else {
+            res.send(docs[0])
+        }
+    })
+})
+
 app.post("/uppdatera", async (req, res) => {
 
+    //FIXME: Flyttar ID:t till tidigare användare - osync mellan klient/ server
 
 
     // TODO: Just nu är det enbart namnet som ändras
     const {
-        id,
-        namn: nyttAnvandarNamn
+        data
     } = req.body
 
-    console.log(`Uppdatera inloggad användares namn med: ${nyttAnvandarNamn}`)
+    console.log(data)
+
+    console.log(`Uppdatera data`)
 
     // hämtar användaren
     const anvandarData = await new Promise((resolve, reject) => {
         // TODO: Lägg till funktion att en ny användare sparas om man inte hittar någon
         anvandareDatabas.find({
-            "_id": id
+            "_id": data["_id"]
         }, (err, docs) => {
             if (err) {
                 console.log(err)
@@ -120,21 +137,19 @@ app.post("/uppdatera", async (req, res) => {
     })
 
     //justerar användarens data
-    const tidigareAnvandarNamn = anvandarData.grunduppgifter.namn
-    anvandarData.grunduppgifter.namn = nyttAnvandarNamn
 
     //Ersätter den gamla datan med den nya i databasen
     anvandareDatabas.update({
-        _id: id
+        _id: data["_id"]
     }, {
-        $set: anvandarData
+        $set: data
     })
 
     //För att snygga till filen, annars hamnar förändringen sist och allt komprimeras inte förrän man laddar om databasen
     anvandareDatabas.persistence.compactDatafile()
 
     //Bekräftelse
-    const msg = `\t*\tNamnet "${tidigareAnvandarNamn}" har ändrats till "${nyttAnvandarNamn}"`
+    const msg = `\t*\tHar lagt till data`
     console.log(msg)
     res.send({
         message: msg.replace("\t\*\t", "")

@@ -77,6 +77,7 @@ async function skickaTillServer(annonsId) {
         console.log(msg["error"])
     } else {
         console.log(msg)
+        window.localStorage.setItem("currentAd", JSON.stringify(msg))
     }
 }
 
@@ -84,5 +85,6 @@ async function skickaTillServer(annonsId) {
 if (typeof module !== "undefined") {
     module.exports = {
         // TODO: Kolla så alla funktioner finns med för test
+        SetFetchOptions
     }
 }

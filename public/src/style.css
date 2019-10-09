@@ -123,6 +123,41 @@ article {
   border-radius: 10px;
 }
 
+.uppgifter {
+  position: fixed;
+  max-width: 60vw;
+  padding: 20px;
+  background: #000;
+  color: #fff;
+  z-index: 2000;
+}
+
+.uppgifter div {
+  margin: 10px 0;
+}
+
+.uppgifter input,
+.uppgifter textarea,
+.uppgifter select {
+  display: block;
+  padding: 5px;
+  min-width: 300px;
+  border-radius: 10px;
+}
+
+.uppgifter .brodtext {
+  rows: 10;
+}
+
+.uppgifter hr {
+  margin: 10px;
+}
+
+.uppgifter .textNuvarande {
+  margin-top: 20px;
+  font-style: italic;
+}
+
 .doljVisa {
   outline: none;
   border-radius: 100%;
