@@ -125,6 +125,10 @@ article {
 
 .uppgifter {
   position: fixed;
+  top: 50vh;
+  left: 50vw;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   max-width: 60vw;
   padding: 20px;
   background: #000;
@@ -132,7 +136,24 @@ article {
   z-index: 2000;
 }
 
-.uppgifter div {
+.uppgifter[data-hidden=true] {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  -webkit-transform: translate(50%, 50%);
+          transform: translate(50%, 50%);
+  top: auto;
+  left: auto;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.uppgifter[data-hidden=true] .innehall {
+  display: none;
+}
+
+.uppgifter form div {
   margin: 10px 0;
 }
 
@@ -145,10 +166,6 @@ article {
   border-radius: 10px;
 }
 
-.uppgifter .brodtext {
-  rows: 10;
-}
-
 .uppgifter hr {
   margin: 10px;
 }
@@ -156,6 +173,35 @@ article {
 .uppgifter .textNuvarande {
   margin-top: 20px;
   font-style: italic;
+}
+
+.showHide {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.uppgifter[data-hidden=false] .showHide {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 50%, white);
+  bottom: 0;
+  right: 0;
+}
+
+.uppgifter[data-hidden=false] .showHide:hover {
+  border-right: 3px solid #ffffffe0;
+  border-bottom: 3px solid #ffffffe0;
+}
+
+.uppgifter[data-hidden=true] .showHide {
+  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0) 50%);
+  top: 0;
+  left: 0;
+}
+
+.uppgifter[data-hidden=true] .showHide:hover {
+  border-left: 3px solid #ffffffe0;
+  border-top: 3px solid #ffffffe0;
 }
 
 .doljVisa {

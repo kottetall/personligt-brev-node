@@ -3,37 +3,39 @@
 window.onload = () => {
 
     // *** TEST ***
+    let anvandare = new User()
+    anvandare.grab()
 
-    //testdata
-    let userData = JSON.parse(window.localStorage.getItem("userData"))
-
-    console.log(JSON.parse(window.localStorage.getItem("currentAd"))) //TODO: tillfällig för test
-    console.log(userData) //TODO: tillfällig för test
+    console.log(anvandare)
 
     //testfunktioner
-    const kategoriLista = document.querySelector("#kategori")
-    for (const kat of Object.keys(userData.text)) {
-        const option = document.createElement("option")
-        option.setAttribute("value", kat)
-        option.textContent = kat
-        kategoriLista.appendChild(option)
-    }
-
-    const nuvarandeNyckelord = document.querySelector("#nuvarande")
-    for (const kat of Object.keys(userData.text)) {
-        // TODO: skriv om med recursion
-        for (const nyckel of Object.keys(userData.text[kat])) {
+    if (anvandare.userData) {
+        const kategoriLista = document.querySelector("#kategori")
+        for (const kat of Object.keys(anvandare.userData.text)) {
             const option = document.createElement("option")
-            option.setAttribute("value", `${kat}-${nyckel}`)
-            option.textContent = nyckel
-            nuvarandeNyckelord.appendChild(option)
+            option.setAttribute("value", kat)
+            option.textContent = kat
+            kategoriLista.appendChild(option)
         }
-    }
 
-    nuvarandeNyckelord.addEventListener("change", (e) => {
-        const text = e.target.value.split("-")
-        document.querySelector(".textNuvarande").textContent = userData.text[text[0]][text[1]]
-    })
+        const nuvarandeNyckelord = document.querySelector("#nuvarande")
+        for (const kat of Object.keys(anvandare.userData.text)) {
+            // TODO: skriv om med recursion
+            for (const nyckel of Object.keys(anvandare.userData.text[kat])) {
+                const option = document.createElement("option")
+                option.setAttribute("value", `${kat}-${nyckel}`)
+                option.textContent = nyckel
+                nuvarandeNyckelord.appendChild(option)
+            }
+        }
+
+        nuvarandeNyckelord.addEventListener("change", (e) => {
+            // const userData = anvandare.grab()
+            const text = e.target.value.split("-")
+            document.querySelector(".textNuvarande").textContent = anvandare.userData.text[text[0]][text[1]]
+
+        })
+    }
 
     document.querySelector(".uppdatera").addEventListener("click", (e) => {
         e.preventDefault()
@@ -42,23 +44,20 @@ window.onload = () => {
         const nyckelOrd = document.querySelector("#nyckelord").value
         const brodText = document.querySelector("#brodText").value
 
-        userData.text[kategori][nyckelOrd] = brodText
-        window.localStorage.setItem("userData", JSON.stringify(userData))
-        console.log(userData)
+        if (anvandare.userData.text[kategori][nyckelOrd]) {
+            if (!confirm(`Du är påväg att skriva över din tidigare text för ordet "${nyckelOrd}"\n Vill du detta?`)) {
+                return
+            }
+        }
+        anvandare.userData.text[kategori][nyckelOrd] = brodText
+        anvandare.saveLocal()
+        location.reload()
+        console.log("användardatan har uppdaterats")
 
     })
 
     // *** TEST ***
 
-    // för att kunna ta bort/lägga till delar
-    document.querySelector(".hamtaAnnons").addEventListener("click", uppdateraAllt)
-    document.querySelector(".annonsId").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            uppdateraAllt()
-        }
-    })
-
-    document.querySelector(".doljVisa").addEventListener("click", doljVisaVerktyg)
 
     document.querySelector(".user-data").addEventListener("click", async (e) => {
         //TODO: Testgrej!!
@@ -69,12 +68,16 @@ window.onload = () => {
         const jsonsvar = await fetch("/hamtaAnvandare", fetchOptions)
         const svar = await jsonsvar.json()
 
-        window.localStorage.setItem("userData", JSON.stringify(svar))
+        anvandare.userData = svar // TODO: FIXME: Detta sätt gör att man kan mista data, som skrivs över, om man råkar trycka på "hämta"
+        anvandare.saveLocal()
         console.log(svar)
+        console.log(anvandare.userData)
 
     })
 
     document.querySelector(".test-user").addEventListener("click", () => {
+
+        // TODO: fixa utifrån nya anvandare
         // FEJKFUNKTION!!! FÖR TEST ENBART
         function UserBase(namn) {
             this.grunduppgifter = {
@@ -94,7 +97,8 @@ window.onload = () => {
 
         const namn = prompt("Vad är namnet?") || "test"
         const data = new UserBase(namn)
-        window.localStorage.setItem("userData", JSON.stringify(data))
+        anvandare.userData = data
+        anvandare.saveLocal()
         location.reload()
     })
 
@@ -111,7 +115,8 @@ window.onload = () => {
 
         console.log(`Meddelandet togs emot av servern`)
         if (svar.data) {
-            window.localStorage.setItem("userData", JSON.stringify(svar.data))
+            anvandare.saveLocal(svar.data)
+            // window.localStorage.setItem("userData", JSON.stringify(svar.data))
         } else {
             alert(svar.meddelande)
         }
@@ -133,8 +138,8 @@ window.onload = () => {
 
         console.log(`Meddelandet togs emot av servern`)
         console.log(svar)
-
-        window.localStorage.setItem("userData", JSON.stringify(data))
+        anvandare.saveLocal(data)
+        // window.localStorage.setItem("userData", JSON.stringify(data))
 
     }, {
         passive: true
@@ -142,10 +147,28 @@ window.onload = () => {
 
     document.querySelector(".clear-data").addEventListener("click", () => {
         if (window.confirm("Vill du verkligen radera datan som finns sparad?")) {
-            window.localStorage.clear()
+            anvandare.clear()
+            location.reload()
             alert("Datan är raderad")
         } else {
             alert("Du valde att avbryta")
         }
     })
+
+    // för att kunna ta bort/lägga till delar
+    // document.querySelector(".hamtaAnnons").addEventListener("click", uppdateraAllt()) //FIXME: ger ett fel när man tar bort kommentaren
+    document.querySelector(".annonsId").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            uppdateraAllt()
+        }
+    })
+
+    document.querySelector(".doljVisa").addEventListener("click", doljVisaVerktyg())
+
+    // dölja/visa input/ändringsmodal
+    document.querySelector(".uppgifter").addEventListener("click", (e) => {
+        const hidden = JSON.parse(e.target.parentElement.dataset.hidden) //för att göra sträng till bool
+        e.target.parentElement.dataset.hidden = !hidden
+    })
+
 }

@@ -88,3 +88,19 @@ if (typeof module !== "undefined") {
         SetFetchOptions
     }
 }
+
+function User() {
+
+    // TODO: Oklart om denna ska användas i produktion. Är inte kopierad till server
+
+    this.userData = {}
+    this.saveLocal = () => {
+        window.localStorage.setItem("userData", JSON.stringify(this.userData))
+    }
+    this.grab = () => {
+        return this.userData = JSON.parse(window.localStorage.getItem("userData"))
+    }
+    this.clear = () => {
+        window.localStorage.clear()
+    }
+}

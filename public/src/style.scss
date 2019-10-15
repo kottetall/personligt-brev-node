@@ -131,13 +131,34 @@ article {
 
 .uppgifter {
     position: fixed;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
     max-width: 60vw;
     padding: 20px;
     background: #000;
     color: #fff;
     z-index: 2000; //FIXME:
 
-    & div {
+    &[data-hidden=false] {}
+
+    &[data-hidden=true] {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        transform: translate(50%, 50%);
+        top: auto;
+        left: auto;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+    }
+
+    &[data-hidden=true] .innehall {
+        display: none;
+    }
+
+    & form div {
         margin: 10px 0;
     }
 
@@ -150,11 +171,6 @@ article {
         border-radius: 10px;
     }
 
-    & .brodtext {
-        rows: 10;
-    }
-
-
     & hr {
         margin: 10px;
     }
@@ -162,6 +178,37 @@ article {
     & .textNuvarande {
         margin-top: 20px;
         font-style: italic;
+    }
+}
+
+.showHide {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    cursor: pointer;
+
+    //TODO: lägg till ikon
+
+    .uppgifter[data-hidden=false] & {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1));
+        bottom: 0;
+        right: 0;
+
+        &:hover {
+            border-right: 3px solid #ffffffe0;
+            border-bottom: 3px solid #ffffffe0;
+        }
+    }
+
+    .uppgifter[data-hidden=true] & {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0)50%);
+        top: 0;
+        left: 0;
+
+        &:hover {
+            border-left: 3px solid #ffffffe0;
+            border-top: 3px solid #ffffffe0;
+        }
     }
 }
 

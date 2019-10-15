@@ -27,41 +27,44 @@
 
     <!-- // TODO: Snygga till!-->
 
-    <section class="uppgifter">
-        <div class="input">
-            <form action="#" class="input-form">
-                <div>
-                    <label for="kategori">Kategori</label>
-                    <select name="kategori" id="kategori"></select>
-                </div>
-                <div>
-                    <label for="nyckelord">Nyckelord</label>
-                    <input type="text" name="nyckelord" , id="nyckelord">
-                </div>
-                <div>
-                    <label for="brodText">Text</label>
-                    <textarea name="brodText" id="brodText"
-                        placeholder="Här fyller du i texten som ska komma upp när nyckelordet finns i annonsen"
-                        rows="4"></textarea>
-                </div>
-                <button class="uppdatera">Uppdatera</button>
-            </form>
-        </div>
-        <hr>
-        <div class="oversyn">
-            <label for="nuvarande">Välj ett av orden du redan lagt in för att granska texten</label>
-            <select name="nuvarande" id="nuvarande">
-                <option value=""></option>
-                <!-- Övriga val läggs in via JS -->
-            </select>
-            <p class="textNuvarande">
-                <!-- texten fylls i via JS -->
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur vero mollitia cumque omnis
-                asperiores!
-                Eos, reprehenderit. Minima consectetur rem suscipit consequatur voluptatum adipisci nulla tenetur
-                possimus
-                accusamus corporis. Eos, ex?
-            </p>
+    <section class="uppgifter" data-hidden="false">
+        <div class="showHide"></div>
+        <div class="innehall">
+            <div class="input">
+                <form action="#" class="input-form">
+                    <div>
+                        <label for="kategori">Kategori</label>
+                        <select name="kategori" id="kategori"></select>
+                    </div>
+                    <div>
+                        <label for="nyckelord">Nyckelord</label>
+                        <input type="text" name="nyckelord" , id="nyckelord">
+                    </div>
+                    <div>
+                        <label for="brodText">Text</label>
+                        <textarea name="brodText" id="brodText"
+                            placeholder="Här fyller du i texten som ska komma upp när nyckelordet finns i annonsen"
+                            rows="4"></textarea>
+                    </div>
+                    <button class="uppdatera">Uppdatera</button>
+                </form>
+            </div>
+            <hr>
+            <div class="oversyn">
+                <label for="nuvarande">Välj ett av orden du redan lagt in för att granska texten</label>
+                <select name="nuvarande" id="nuvarande">
+                    <option value="" disabled selected></option>
+                    <!-- Övriga val läggs in via JS -->
+                </select>
+                <p class="textNuvarande">
+                    <!-- texten fylls i via JS -->
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur vero mollitia cumque omnis
+                    asperiores!
+                    Eos, reprehenderit. Minima consectetur rem suscipit consequatur voluptatum adipisci nulla tenetur
+                    possimus
+                    accusamus corporis. Eos, ex?
+                </p>
+            </div>
         </div>
     </section>
 
