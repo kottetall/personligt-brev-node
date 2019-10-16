@@ -1,7 +1,7 @@
 "use strict"
 
 function SetFetchOptions(body, method = "GET") {
-    let errorExists = false
+    // let errorExists = false
     if (typeof body !== "object") {
         throw new Error(`"${body}" är inget objekt. Body behöver vara i JSON-/objektformat.`)
     }
@@ -18,43 +18,41 @@ function SetFetchOptions(body, method = "GET") {
 
 }
 
-function doljVisaVerktyg() {
-    //TODO: Skriv om
-    const verktyg = document.querySelector(".verktyg")
-    const doljVisa = document.querySelector(".doljVisa i")
-    let dold = verktyg.getAttribute("data-dold")
+// function doljVisaVerktyg() {
+//     //TODO: Skriv om
+//     const verktyg = document.querySelector(".verktyg")
+//     const doljVisa = document.querySelector(".doljVisa i")
+//     let dold = verktyg.getAttribute("data-dold")
 
-    //dold blir string istället för booleon och därför behöv '==='
+//     //dold blir string istället för booleon och därför behöv '==='
 
-    if (dold === "true") {
-        verktyg.classList.remove("dold")
-        verktyg.classList.add("visa")
-        verktyg.setAttribute("data-dold", "false")
-        doljVisa.classList.remove("fa-chevron-right")
-        doljVisa.classList.add("fa-chevron-left")
+//     if (dold === "true") {
+//         verktyg.classList.remove("dold")
+//         verktyg.classList.add("visa")
+//         verktyg.setAttribute("data-dold", "false")
+//         doljVisa.classList.remove("fa-chevron-right")
+//         doljVisa.classList.add("fa-chevron-left")
 
-    } else if (dold === "false") {
-        verktyg.classList.remove("visa")
-        verktyg.classList.add("dold")
-        verktyg.setAttribute("data-dold", "true")
-        doljVisa.classList.remove("fa-chevron-left")
-        doljVisa.classList.add("fa-chevron-right")
-    }
-}
+//     } else if (dold === "false") {
+//         verktyg.classList.remove("visa")
+//         verktyg.classList.add("dold")
+//         verktyg.setAttribute("data-dold", "true")
+//         doljVisa.classList.remove("fa-chevron-left")
+//         doljVisa.classList.add("fa-chevron-right")
+//     }
+// }
 
-function uppdateraSidnummer() {
-    const allaSidor = document.querySelectorAll(".sidnr")
-    const antalSidor = allaSidor.length
+// function uppdateraSidnummer() {
+//     const allaSidor = document.querySelectorAll(".sidnr")
+//     const antalSidor = allaSidor.length
 
-    for (let i = 0; i < antalSidor; i++) {
-        allaSidor[i].textContent = `sida ${i+1} av ${antalSidor}`
-    }
-}
+//     for (let i = 0; i < antalSidor; i++) {
+//         allaSidor[i].textContent = `sida ${i+1} av ${antalSidor}`
+//     }
+// }
 
-async function hamtaJobbAnnons(minMax) {
-
+async function hamtaJobbAnnons() {
     const annonsId = document.querySelector(".annonsId").value || 8426124
-
     skickaTillServer(annonsId)
 }
 
@@ -90,15 +88,43 @@ if (typeof module !== "undefined") {
 }
 
 function User() {
+    // TODO: kopiera el skapa motsvarivghet på server
+    this.create = (namn) => {
+        this.information = {
+            grunduppgifter: {
+                kontaktuppgifter: "",
+                rubrik: "",
+                halsning: "",
+                namn: namn
+            },
+            kategorier: [
+                "om",
+                "erfarenheter",
+                "egenskaper",
+                "kunskaper"
+            ],
+            nyckelord: {},
+            text: {}
+        }
+    }
 
-    // TODO: Oklart om denna ska användas i produktion. Är inte kopierad till server
+    this.addKeyWord = (nyckel, kategori, text) => {
+        const id = Date.now()
+        if (!this.information.kategorier.includes(kategori)) {
+            this.information.kategorier.push(kategori)
+        }
+        this.information.text[id] = text
+        this.information.nyckelord[nyckel] = {
+            id,
+            kategorier: kategori
+        } //TODO: ev lägga det som en array för att ge möjligheten till flera olika motiveringar för resp ord
+    }
 
-    this.userData = {}
     this.saveLocal = () => {
-        window.localStorage.setItem("userData", JSON.stringify(this.userData))
+        window.localStorage.setItem("userData", JSON.stringify(this.information))
     }
     this.grab = () => {
-        return this.userData = JSON.parse(window.localStorage.getItem("userData"))
+        return this.information = JSON.parse(window.localStorage.getItem("userData"))
     }
     this.clear = () => {
         window.localStorage.clear()

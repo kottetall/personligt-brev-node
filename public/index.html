@@ -12,9 +12,10 @@
 
 <body>
 
-    <section class="verktyg dold" data-dold="true">
+    <section class="verktyg" data-hidden="false">
+        <div class="showHide" role="button" aria-label="Visa eller göm meny för redigering av nyckelord och texter">
+        </div>
         <ul>
-
             <li>
                 <a href="#" class="ansok" target="_blank">ansök</a>
             </li>
@@ -22,14 +23,15 @@
                 <a href="#" class="besokAnnons" target="_blank">besök annons</a>
             </li>
         </ul>
-        <button class="doljVisa"><i class="fas fa-chevron-right"></i></button>
+        <!-- <button class="doljVisa"><i class="fas fa-chevron-right"></i></button> -->
     </section>
 
     <!-- // TODO: Snygga till!-->
 
-    <section class="uppgifter" data-hidden="false">
-        <div class="showHide"></div>
-        <div class="innehall">
+    <section class="uppgifter" data-hidden="true">
+        <div class="showHide" role="button" aria-label="Visa eller göm meny för redigering av nyckelord och texter">
+        </div>
+        <div class="innehall" aria-hidden="true">
             <div class="input">
                 <form action="#" class="input-form">
                     <div>
@@ -70,11 +72,13 @@
 
 
     <section class="val">
-        <button class="update-user">Uppdatera användare</button>
-        <div>
-            <input type="text" class="annonsId" placeholder="AnnonsID(Af)">
+
+        <div class="hamtaAnnonsContainer">
+            <label class="annonsId-label" for="annonsId">Fyll i annonsens id-nummer</label>
+            <input type="text" id="annonsId" class="annonsId" placeholder="ID(Arbetsförmedlingen)">
             <button class="hamtaAnnons" title="Uppdatera allt"><i class="fas fa-pen-alt"></i></button>
         </div>
+        <button class="update-user">Uppdatera användare</button>
         <button class="new-user">Ny användare</button>
         <button class="user-data">Hämta användardata</button>
         <button class="clear-data">Rensa lokal data</button>
@@ -129,8 +133,8 @@
         </footer>
     </section>
 
-    <script src="src/funktioner.js"></script>
-    <script src="src/app.js"></script>
+    <script defer src="src/funktioner.js"></script>
+    <script defer src="src/app.js"></script>
 </body>
 
 </html>

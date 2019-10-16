@@ -94,10 +94,26 @@ article {
 .verktyg {
   position: absolute;
   padding: 0 21px;
-  top: 10vh;
+  top: 0vh;
   z-index: 5;
   background: #000;
   border-radius: 0 10px 10px 0;
+}
+
+.verktyg[data-hidden=true] {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  top: 0;
+  left: 0;
+  bottom: auto;
+  right: auto;
+  overflow: hidden;
+}
+
+.verktyg[data-hidden=true] ul {
+  display: none;
 }
 
 .verktyg ul {
@@ -133,6 +149,7 @@ article {
   padding: 20px;
   background: #000;
   color: #fff;
+  border-radius: 10px;
   z-index: 2000;
 }
 
@@ -182,48 +199,56 @@ article {
   cursor: pointer;
 }
 
-.uppgifter[data-hidden=false] .showHide {
+.showHide::after {
+  content: "<";
+  position: absolute;
+  font-size: 25px;
+}
+
+.showHide:hover:after {
+  font-size: 30px;
+}
+
+.uppgifter[data-hidden=false] .showHide,
+.verktyg[data-hidden=true] .showHide {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0) 50%, white);
   bottom: 0;
   right: 0;
 }
 
-.uppgifter[data-hidden=false] .showHide:hover {
-  border-right: 3px solid #ffffffe0;
-  border-bottom: 3px solid #ffffffe0;
+.uppgifter[data-hidden=false] .showHide::after,
+.verktyg[data-hidden=true] .showHide::after {
+  bottom: 0px;
+  right: 4px;
+  -webkit-transform: rotateZ(-135deg);
+          transform: rotateZ(-135deg);
 }
 
-.uppgifter[data-hidden=true] .showHide {
+.uppgifter[data-hidden=false] .showHide:hover,
+.verktyg[data-hidden=true] .showHide:hover {
+  border-right: 1px solid #ffffffe0;
+  border-bottom: 1px solid #ffffffe0;
+}
+
+.uppgifter[data-hidden=true] .showHide,
+.verktyg[data-hidden=false] .showHide {
   background: linear-gradient(135deg, white, rgba(255, 255, 255, 0) 50%);
   top: 0;
   left: 0;
 }
 
-.uppgifter[data-hidden=true] .showHide:hover {
-  border-left: 3px solid #ffffffe0;
-  border-top: 3px solid #ffffffe0;
+.uppgifter[data-hidden=true] .showHide::after,
+.verktyg[data-hidden=false] .showHide::after {
+  top: -2px;
+  left: 4px;
+  -webkit-transform: rotateZ(45deg);
+          transform: rotateZ(45deg);
 }
 
-.doljVisa {
-  outline: none;
-  border-radius: 100%;
-  padding: 10px 15px;
-  color: #fff;
-  background: #000;
-  border: 1px solid #000;
-  position: absolute;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  top: 50%;
-  left: 100%;
-}
-
-.doljVisa:hover, .doljVisa:focus {
-  border-color: #fff;
-}
-
-.dold {
-  right: calc(100% - 21px);
+.uppgifter[data-hidden=true] .showHide:hover,
+.verktyg[data-hidden=false] .showHide:hover {
+  border-left: 1px solid #ffffffe0;
+  border-top: 1px solid #ffffffe0;
 }
 
 .jobbtitel,
@@ -241,10 +266,20 @@ article {
   text-align: center;
 }
 
-.val div {
-  display: inline-block;
+.val > button,
+.val > div {
+  margin: 10px;
+}
+
+.hamtaAnnonsContainer {
+  display: block;
   position: relative;
   text-align: center;
+}
+
+.annonsId-label {
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .annonsId {
@@ -252,13 +287,9 @@ article {
 }
 
 .hamtaAnnons {
-  position: absolute;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  top: 50%;
-  right: 0;
-  width: 50px;
-  border-radius: 0 10px 10px 0;
+  width: 40px;
+  border-radius: 10px;
+  background: #1a84ff;
 }
 
 .hamtaAnnons:hover {
@@ -266,9 +297,7 @@ article {
 }
 
 .sida {
-  /* ändra outline när det går att tabba runt inne i sidan*/
   outline: none;
-  /* ändra outline när det går att tabba runt inne i sidan*/
   background: #fff;
   position: relative;
   height: 297mm;
