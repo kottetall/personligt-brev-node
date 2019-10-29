@@ -12,6 +12,11 @@ body {
   background: #444;
 }
 
+a,
+a:visited {
+  color: #fff;
+}
+
 h1 {
   margin: 0.5cm 0;
   font-size: 1.5em;
@@ -192,6 +197,19 @@ article {
   font-style: italic;
 }
 
+.input-rubrik.not-active {
+  color: #888;
+}
+
+.input-rubrik.not-active:hover, .input-rubrik.not-active:focus {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.input form[aria-hidden=true] {
+  display: none;
+}
+
 .showHide {
   height: 50px;
   width: 50px;
@@ -212,8 +230,8 @@ article {
 .uppgifter[data-hidden=false] .showHide,
 .verktyg[data-hidden=true] .showHide {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0) 50%, white);
-  bottom: 0;
-  right: 0;
+  top: 0vh;
+  right: 0vw;
 }
 
 .uppgifter[data-hidden=false] .showHide::after,
@@ -344,6 +362,19 @@ article {
   top: 100%;
 }
 
+.forklaring {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: -1.25em;
+  background: #666;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 0.8em;
+  padding: 0 5px;
+  border-radius: 10px;
+}
+
 .motivering {
   margin-right: 0.2em;
   position: relative;
@@ -359,19 +390,6 @@ article {
 
 .motivering:hover .forklaring {
   display: inline;
-}
-
-.motivering .forklaring {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: -1.25em;
-  background: #666;
-  color: #fff;
-  font-weight: bolder;
-  font-size: 0.8em;
-  padding: 0 5px;
-  border-radius: 10px;
 }
 
 @media print {

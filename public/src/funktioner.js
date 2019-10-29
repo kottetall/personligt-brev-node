@@ -1,82 +1,17 @@
 "use strict"
 
-function SetFetchOptions(body, method = "GET") {
+function SetFetchOptions(body) {
     // let errorExists = false
     if (typeof body !== "object") {
         throw new Error(`"${body}" är inget objekt. Body behöver vara i JSON-/objektformat.`)
     }
 
-    if (method !== "GET" && method !== "POST") {
-        throw new Error(`"${method}" är inte en giltig metod`)
-    }
-
-    this.method = method
+    this.method = "POST"
     this.headers = {
         "Content-Type": "application/json"
     }
     this.body = JSON.stringify(body)
 
-}
-
-// function doljVisaVerktyg() {
-//     //TODO: Skriv om
-//     const verktyg = document.querySelector(".verktyg")
-//     const doljVisa = document.querySelector(".doljVisa i")
-//     let dold = verktyg.getAttribute("data-dold")
-
-//     //dold blir string istället för booleon och därför behöv '==='
-
-//     if (dold === "true") {
-//         verktyg.classList.remove("dold")
-//         verktyg.classList.add("visa")
-//         verktyg.setAttribute("data-dold", "false")
-//         doljVisa.classList.remove("fa-chevron-right")
-//         doljVisa.classList.add("fa-chevron-left")
-
-//     } else if (dold === "false") {
-//         verktyg.classList.remove("visa")
-//         verktyg.classList.add("dold")
-//         verktyg.setAttribute("data-dold", "true")
-//         doljVisa.classList.remove("fa-chevron-left")
-//         doljVisa.classList.add("fa-chevron-right")
-//     }
-// }
-
-// function uppdateraSidnummer() {
-//     const allaSidor = document.querySelectorAll(".sidnr")
-//     const antalSidor = allaSidor.length
-
-//     for (let i = 0; i < antalSidor; i++) {
-//         allaSidor[i].textContent = `sida ${i+1} av ${antalSidor}`
-//     }
-// }
-
-async function hamtaJobbAnnons() {
-    const annonsId = document.querySelector(".annonsId").value || 8426124
-    skickaTillServer(annonsId)
-}
-
-async function uppdateraAllt() {
-    const annonsId = document.querySelector(".annonsId").value
-    skickaTillServer(annonsId)
-}
-
-async function skickaTillServer(annonsId) {
-
-    const dataSkickas = {
-        annonsid: annonsId
-    }
-
-    const fetchOptions = new SetFetchOptions(dataSkickas, "POST")
-
-    const svar = await fetch("annonsid/", fetchOptions)
-    const msg = await svar.json()
-    if (msg["error"]) {
-        console.log(msg["error"])
-    } else {
-        console.log(msg)
-        window.localStorage.setItem("currentAd", JSON.stringify(msg))
-    }
 }
 
 // används för att kunna extrahera funktionerna till tester i Node med Jest
@@ -93,6 +28,7 @@ function User() {
         this.information = {
             grunduppgifter: {
                 kontaktuppgifter: "",
+                hemsida: "",
                 rubrik: "",
                 halsning: "",
                 namn: namn
@@ -117,7 +53,8 @@ function User() {
         this.information.nyckelord[nyckel] = {
             id,
             kategorier: kategori
-        } //TODO: ev lägga det som en array för att ge möjligheten till flera olika motiveringar för resp ord
+        }
+        this.saveLocal()
     }
 
     this.saveLocal = () => {
@@ -128,5 +65,79 @@ function User() {
     }
     this.clear = () => {
         window.localStorage.clear()
+        this.information = {}
     }
+}
+
+function Annons(serverAnnons) {
+
+    this.nyAnnons = (nyAnnons) => {
+        this.serverAnnons = nyAnnons
+        this.saveLocal(this.serverAnnons)
+    }
+
+    this.unikaAnnonsOrd = (anvandareNyckelordObjekt) => {
+        const anvandareNyckelordArray = Object.entries(anvandareNyckelordObjekt)
+        this.gemensammaOrd = anvandareNyckelordArray.filter(ord => {
+            if (this.serverAnnons.enskildaAnnonsOrd.includes(ord[0])) {
+                return ord
+            }
+        })
+    }
+
+    this.grab = () => {
+        return JSON.parse(window.sessionStorage.getItem("serverAnnons"))
+    }
+
+    this.saveLocal = (data) => {
+        window.sessionStorage.setItem("serverAnnons", JSON.stringify(data))
+    }
+
+
+    this.serverAnnons = serverAnnons
+
+    this.saveLocal(serverAnnons) //När en ny instans skapas så sparas den samtidigt
+}
+
+function PersonligtBrev() {
+    this.text = {
+        kategorier: {},
+        grunduppgifter: {},
+        annonsUppgifter: {}
+    }
+
+    this.createText = (anvandare, annons) => {
+        for (const ord of annons.gemensammaOrd) {
+            if (!this.text.kategorier[ord[1].kategorier]) {
+                this.text.kategorier[ord[1].kategorier] = []
+            }
+            this.text.kategorier[ord[1].kategorier].push([ord[0], anvandare.information.text[ord[1].id]])
+        }
+        this.text.grunduppgifter = anvandare.information.grunduppgifter
+        //header - företag och annonsuppgifter
+        annons.serverAnnons.annonsen
+        this.text.annonsUppgifter.foretagsNamn = annons.serverAnnons.annonsen.employer.name
+        this.text.annonsUppgifter.jobbtitel = annons.serverAnnons.annonsen.headline //kan behöva ändras till någon annan del av annonsen
+        this.text.annonsUppgifter.markning = annons.serverAnnons.annonsen.application_details.reference
+        this.text.annonsUppgifter.ansok = annons.serverAnnons.annonsen.application_details.url
+
+    }
+}
+
+function rensaOchKontrolleraInput(input) {
+    const getIdRegex = /([\d\-]+)/
+    return input.trim().toLowerCase().match(getIdRegex)[0]
+}
+
+async function hanteraAnnons() {
+    const input = document.querySelector("#annonsId").value
+    const id = rensaOchKontrolleraInput(input)
+
+    const options = new SetFetchOptions({
+        annonsid: id
+    })
+    const data = await fetch("/annonsid", options)
+    const svar = await data.json()
+    const annons = new Annons(svar)
+    console.log(annons)
 }

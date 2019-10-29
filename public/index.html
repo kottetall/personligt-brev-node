@@ -12,9 +12,9 @@
 
 <body>
 
-    <section class="verktyg" data-hidden="false">
+    <section class="verktyg" data-hidden="true">
         <div class="showHide" role="button" aria-label="Visa eller göm meny för redigering av nyckelord och texter">
-        </div>
+        </div aria-hidden="true">
         <ul>
             <li>
                 <a href="#" class="ansok" target="_blank">ansök</a>
@@ -23,7 +23,6 @@
                 <a href="#" class="besokAnnons" target="_blank">besök annons</a>
             </li>
         </ul>
-        <!-- <button class="doljVisa"><i class="fas fa-chevron-right"></i></button> -->
     </section>
 
     <!-- // TODO: Snygga till!-->
@@ -33,7 +32,13 @@
         </div>
         <div class="innehall" aria-hidden="true">
             <div class="input">
-                <form action="#" class="input-form">
+
+                <!-- //FIXME: -->
+                <h3><span data-rubrik="nyckelord" data-hidden="false" class="input-rubrik">Nyckelord</span> / <span
+                        data-rubrik="grunduppgifter" data-hidden="true"
+                        class="input-rubrik not-active">Grunduppgifter</span></h3>
+
+                <form action="#" class="input-form form-nyckelord" aria-hidden="false">
                     <div>
                         <label for="kategori">Kategori</label>
                         <select name="kategori" id="kategori"></select>
@@ -50,22 +55,19 @@
                     </div>
                     <button class="uppdatera">Uppdatera</button>
                 </form>
-            </div>
-            <hr>
-            <div class="oversyn">
-                <label for="nuvarande">Välj ett av orden du redan lagt in för att granska texten</label>
-                <select name="nuvarande" id="nuvarande">
-                    <option value="" disabled selected></option>
-                    <!-- Övriga val läggs in via JS -->
-                </select>
-                <p class="textNuvarande">
-                    <!-- texten fylls i via JS -->
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur vero mollitia cumque omnis
-                    asperiores!
-                    Eos, reprehenderit. Minima consectetur rem suscipit consequatur voluptatum adipisci nulla tenetur
-                    possimus
-                    accusamus corporis. Eos, ex?
-                </p>
+
+                <form action="#" class="input-form form-grunduppgifter" aria-hidden="true">
+                    <div>
+                        <label for="anvandarUppgiftTyp">Användaruppgift</label>
+                        <input type="text" name="anvandarUppgiftTyp" , id="anvandarUppgiftTyp">
+                    </div>
+                    <div>
+                        <label for="anvandarUppgiftText">Text</label>
+                        <textarea name="anvandarUppgiftText" id="anvandarUppgiftText"
+                            placeholder="Här fyller du i dina uppgifter" rows="4"></textarea>
+                    </div>
+                    <button class="uppdateraAnvandarUppgifter">Uppdatera</button>
+                </form>
             </div>
         </div>
     </section>
@@ -74,13 +76,11 @@
     <section class="val">
 
         <div class="hamtaAnnonsContainer">
-            <label class="annonsId-label" for="annonsId">Fyll i annonsens id-nummer</label>
-            <input type="text" id="annonsId" class="annonsId" placeholder="ID(Arbetsförmedlingen)">
+            <label class="annonsId-label" for="annonsId">Fyll i id eller URL från <a
+                    href="https://arbetsformedlingen.se/platsbanken/" target="_blank">Arbetsförmedlingen</a></label><br>
+            <input type="text" id="annonsId" class="annonsId" placeholder="ID / URL">
             <button class="hamtaAnnons" title="Uppdatera allt"><i class="fas fa-pen-alt"></i></button>
         </div>
-        <button class="update-user">Uppdatera användare</button>
-        <button class="new-user">Ny användare</button>
-        <button class="user-data">Hämta användardata</button>
         <button class="clear-data">Rensa lokal data</button>
         <button class="test-user">Skapa testanvändare Front</button>
     </section>
@@ -94,7 +94,7 @@
 
         <div class="brodText">
 
-            <article class="ommig">
+            <!-- <article class="ommig">
                 <span class="beskrivning">Om Mig</span>
                 <div class="text"></div>
             </article>
@@ -122,7 +122,7 @@
             <article class="halsning">
                 <span class="beskrivning">hälsning</span>
                 <div class="text"></div>
-            </article>
+            </article> -->
 
         </div>
 
@@ -133,7 +133,11 @@
         </footer>
     </section>
 
+
+    <script defer src="src/rendering.js"></script>
     <script defer src="src/funktioner.js"></script>
+    <script defer src="src/annonsExempel.js"></script> <!-- //TODO: TAS BORT INNAN LIVE-->
+    <script defer src="src/testfunktioner.js"></script><!-- //TODO: TAS BORT INNAN LIVE-->
     <script defer src="src/app.js"></script>
 </body>
 
