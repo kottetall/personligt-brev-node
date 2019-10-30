@@ -10,9 +10,22 @@ function removeChildren(parent) {
 
 // UPPGIFTSMODAL
 function updateUppgifterModal(anvandare) {
-    const kategoriLista = document.querySelector("#kategori")
+    const {
+        kategorier,
+        grunduppgifter
+    } = anvandare.information
+
+    // Uppdaterar nyckelordskategorier i modal
+    setSelect("#kategori", kategorier)
+
+    // Uppdaterar grunduppgifter i modal
+    setSelect("#anvandarUppgiftTyp", Object.keys(grunduppgifter))
+}
+
+function setSelect(malListaId, valArray) {
+    const kategoriLista = document.querySelector(malListaId)
     removeChildren(kategoriLista)
-    for (const kat of anvandare.information.kategorier) {
+    for (const kat of valArray) {
         const option = document.createElement("option")
         option.setAttribute("value", kat)
         option.textContent = kat

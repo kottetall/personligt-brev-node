@@ -1,5 +1,13 @@
 "use strict"
 
+// används för att kunna extrahera funktionerna till tester i Node med Jest
+if (typeof module !== "undefined") {
+    module.exports = {
+        // TODO: Kolla så alla funktioner finns med för test
+        SetFetchOptions
+    }
+}
+
 function SetFetchOptions(body) {
     // let errorExists = false
     if (typeof body !== "object") {
@@ -12,14 +20,6 @@ function SetFetchOptions(body) {
     }
     this.body = JSON.stringify(body)
 
-}
-
-// används för att kunna extrahera funktionerna till tester i Node med Jest
-if (typeof module !== "undefined") {
-    module.exports = {
-        // TODO: Kolla så alla funktioner finns med för test
-        SetFetchOptions
-    }
 }
 
 function User() {
@@ -42,6 +42,11 @@ function User() {
             nyckelord: {},
             text: {}
         }
+    }
+
+    this.addGrunduppgift = (uppgift, text) => {
+        this.information.grunduppgifter[uppgift] = text //FIXME: Lägg till kontroll av input(gäller alla)!!!
+        this.saveLocal()
     }
 
     this.addKeyWord = (nyckel, kategori, text) => {
@@ -93,7 +98,6 @@ function Annons(serverAnnons) {
         window.sessionStorage.setItem("serverAnnons", JSON.stringify(data))
     }
 
-
     this.serverAnnons = serverAnnons
 
     this.saveLocal(serverAnnons) //När en ny instans skapas så sparas den samtidigt
@@ -107,19 +111,24 @@ function PersonligtBrev() {
     }
 
     this.createText = (anvandare, annons) => {
-        for (const ord of annons.gemensammaOrd) {
-            if (!this.text.kategorier[ord[1].kategorier]) {
-                this.text.kategorier[ord[1].kategorier] = []
+
+        for (const ordData of annons.gemensammaOrd) {
+            const [ord, ordMeta] = ordData //för läsbarhet
+            const kategori = ordMeta.kategorier //för läsbarhet
+
+            if (!this.text.kategorier[kategori]) {
+                this.text.kategorier[kategori] = []
             }
-            this.text.kategorier[ord[1].kategorier].push([ord[0], anvandare.information.text[ord[1].id]])
+            this.text.kategorier[kategori].push([ord, anvandare.information.text[ordMeta.id]])
         }
+
         this.text.grunduppgifter = anvandare.information.grunduppgifter
         //header - företag och annonsuppgifter
-        annons.serverAnnons.annonsen
-        this.text.annonsUppgifter.foretagsNamn = annons.serverAnnons.annonsen.employer.name
-        this.text.annonsUppgifter.jobbtitel = annons.serverAnnons.annonsen.headline //kan behöva ändras till någon annan del av annonsen
-        this.text.annonsUppgifter.markning = annons.serverAnnons.annonsen.application_details.reference
-        this.text.annonsUppgifter.ansok = annons.serverAnnons.annonsen.application_details.url
+        const annonsen = annons.serverAnnons.annonsen
+        this.text.annonsUppgifter.foretagsNamn = annonsen.employer.name
+        this.text.annonsUppgifter.jobbtitel = annonsen.headline //kan behöva ändras till någon annan del av annonsen
+        this.text.annonsUppgifter.markning = annonsen.application_details.reference
+        this.text.annonsUppgifter.ansok = annonsen.application_details.url
 
     }
 }

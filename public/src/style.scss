@@ -159,6 +159,10 @@ article {
     border-radius: 10px;
     z-index: 2000; //FIXME:
 
+    &[data-hidden=false] {
+        min-width: 350px;
+    }
+
     &[data-hidden=true] {
         position: fixed;
         width: $showHide-button-size;
@@ -232,8 +236,8 @@ article {
     .uppgifter[data-hidden=false] &,
     .verktyg[data-hidden=true] & {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1));
-        top: 0vh;
-        right: 0vw;
+        bottom: 0;
+        right: 0;
 
         &::after {
             bottom: 0px;

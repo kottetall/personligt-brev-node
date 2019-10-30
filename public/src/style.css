@@ -158,6 +158,10 @@ article {
   z-index: 2000;
 }
 
+.uppgifter[data-hidden=false] {
+  min-width: 350px;
+}
+
 .uppgifter[data-hidden=true] {
   position: fixed;
   width: 50px;
@@ -230,8 +234,8 @@ article {
 .uppgifter[data-hidden=false] .showHide,
 .verktyg[data-hidden=true] .showHide {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0) 50%, white);
-  top: 0vh;
-  right: 0vw;
+  bottom: 0;
+  right: 0;
 }
 
 .uppgifter[data-hidden=false] .showHide::after,

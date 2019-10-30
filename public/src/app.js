@@ -25,24 +25,56 @@ window.onload = () => {
         updateUppgifterModal(anvandare)
     }
 
-    const inputRubriker = document.querySelectorAll(".input-rubrik")
-    for (const inputRubrik of inputRubriker) {
-        inputRubrik.addEventListener("click", (e) => {
-            // FIXME:
-        })
-    }
+    document.querySelector("#anvandarUppgiftTyp").addEventListener("change", (e) => {
+        //TODO: slå ihop med nedan
+        const rutText = e.target.value.toLowerCase().trim()
+        const {
+            grunduppgifter
+        } = anvandare.information
+        if (grunduppgifter[rutText]) {
+            document.querySelector("#anvandarUppgiftText").value = grunduppgifter[rutText]
+        } else {
+            document.querySelector("#anvandarUppgiftText").value = ""
+        }
+    })
 
     document.querySelector("#nyckelord").addEventListener("keyup", (e) => {
         // Om man redan skrivit om ordet fylls beskrivningen i textfältet och man kan ändra och spara
         const rutText = e.target.value.toLowerCase().trim()
-        if (anvandare.information.nyckelord[rutText]) {
-            document.querySelector("#brodText").value = anvandare.information.text[anvandare.information.nyckelord[rutText]["id"]]
+        const {
+            nyckelord,
+            text
+        } = anvandare.information
+        if (nyckelord[rutText]) {
+            document.querySelector("#brodText").value = text[nyckelord[rutText]["id"]]
         } else {
             document.querySelector("#brodText").value = ""
         }
     })
 
-    document.querySelector(".uppdatera").addEventListener("click", (e) => {
+    document.querySelector("#uppdateraAnvandaruppgifter").addEventListener("click", (e) => {
+        e.preventDefault() //TODO: Nödv ändig?
+        const anvandarUppgiftTyp = document.querySelector("#anvandarUppgiftTyp").value.toLowerCase()
+        const anvandarUppgiftText = document.querySelector("#anvandarUppgiftText").value.toLowerCase()
+        let brodText = document.querySelector("#brodText").value
+
+        if (!anvandarUppgiftText) {
+            alert("Du har missat att fylla i nyckelordet")
+            return
+        }
+        if (!anvandarUppgiftText) {
+            if (!confirm(`Du har inte skrivit något om ${anvandarUppgiftTyp}. Vill du ändå spara det(utfyllnadstext kommer sparas istället)?`)) {
+                return
+            } else {
+                brodText = `TEXT SAKNAS FÖR ORDET " ${anvandarUppgiftTyp.toUpperCase()}"`
+            }
+        }
+        anvandare.addGrunduppgift(anvandarUppgiftTyp, anvandarUppgiftText)
+        updateUppgifterModal(anvandare)
+        console.log("användardatan har uppdaterats")
+    })
+
+    document.querySelector("#uppdatera").addEventListener("click", (e) => {
         e.preventDefault() //TODO: Nödv ändig?
         const kategori = document.querySelector("#kategori").value.toLowerCase()
         const nyckelOrd = document.querySelector("#nyckelord").value.toLowerCase()
@@ -77,6 +109,22 @@ window.onload = () => {
 
     document.querySelector(".hamtaAnnons").addEventListener("click", hanteraAnnons) //TODO: lägg till hantering för ENTER
 
+
+    document.querySelector(".input h3").addEventListener("click", (e) => {
+        const mal = e.target
+        if (mal.localName === "span") {
+            const malTyp = mal.dataset.rubrik
+            mal.classList.remove("not-active")
+            const malForm = document.querySelector(".form-" + malTyp)
+            malForm.setAttribute("aria-hidden", false)
+
+            const syskon = mal.nextElementSibling || mal.previousElementSibling
+            const syskonTyp = syskon.dataset.rubrik
+            syskon.classList.add("not-active")
+            const syskonForm = document.querySelector(".form-" + syskonTyp)
+            syskonForm.setAttribute("aria-hidden", true)
+        }
+    })
 }
 
 

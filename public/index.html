@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script defer src="https://kit.fontawesome.com/f8762344d3.js"></script>
+    <script defer src="https://kit.fontawesome.com/f8762344d3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="src/style.css">
     <title>Personligt brev - generator</title>
 </head>
@@ -53,20 +53,20 @@
                             placeholder="Här fyller du i texten som ska komma upp när nyckelordet finns i annonsen"
                             rows="4"></textarea>
                     </div>
-                    <button class="uppdatera">Uppdatera</button>
+                    <button id="uppdatera">Uppdatera</button>
                 </form>
 
                 <form action="#" class="input-form form-grunduppgifter" aria-hidden="true">
                     <div>
                         <label for="anvandarUppgiftTyp">Användaruppgift</label>
-                        <input type="text" name="anvandarUppgiftTyp" , id="anvandarUppgiftTyp">
+                        <select name="anvandarUppgiftTyp" id="anvandarUppgiftTyp"></select>
                     </div>
                     <div>
                         <label for="anvandarUppgiftText">Text</label>
                         <textarea name="anvandarUppgiftText" id="anvandarUppgiftText"
                             placeholder="Här fyller du i dina uppgifter" rows="4"></textarea>
                     </div>
-                    <button class="uppdateraAnvandarUppgifter">Uppdatera</button>
+                    <button id="uppdateraAnvandaruppgifter">Uppdatera</button>
                 </form>
             </div>
         </div>
