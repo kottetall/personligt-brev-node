@@ -5,17 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description"
+        content="Här kan du automatiskt skapa en startpunnkt för ditt personliga brev baserat på arbetsgivarens annons. Verktyget går igenom annonsen och utifrån de ord/uttryck du beskrivit sätter det samman brevet.">
     <script defer src="https://kit.fontawesome.com/f8762344d3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="src/style.css">
     <title>Personligt brev - generator</title>
 </head>
 
 <body>
+    <section class="val">
 
+        <div class="ikonhallare" data-controls="verktyg" role="button"
+            aria-label="Visa eller göm meny för redigering av nyckelord och texter" tabindex="0">
+            <i class="fas fa-2x fa-eye"></i>
+            Besök
+        </div>
+        <div class="hamtaAnnonsContainer">
+            <label class="annonsId-label" for="annonsId">Fyll i id eller URL från <a
+                    href="https://arbetsformedlingen.se/platsbanken/" target="_blank"
+                    rel="noopener">Arbetsförmedlingen</a></label><br>
+            <input type="text" id="annonsId" class="annonsId" placeholder="ID / URL">
+            <button class="hamtaAnnons" title="Uppdatera allt"><i class="fas fa-pen-alt"></i></button>
+        </div>
+        <div class="ikonhallare" data-controls="uppgifter" role="button"
+            aria-label="Visa eller göm meny för redigering av nyckelord och texter" tabindex="0">
+            <i class="fas fa-2x fa-cog"></i>
+            Ändra
+        </div>
+        <!-- <button class="clear-data">Rensa lokal data</button>
+        <button class="test-user">Skapa testanvändare Front</button> -->
+
+    </section>
     <section class="verktyg" data-hidden="true">
-        <div class="showHide" role="button" aria-label="Visa eller göm meny för redigering av nyckelord och texter">
-        </div aria-hidden="true">
         <ul>
+            <li class="container-sistaAnsokDag">
+                Sista ansökningsdag: <span class="sistaAnsokDag"></span>
+            </li>
             <li>
                 <a href="#" class="ansok" target="_blank">ansök</a>
             </li>
@@ -28,8 +53,6 @@
     <!-- // TODO: Snygga till!-->
 
     <section class="uppgifter" data-hidden="true">
-        <div class="showHide" role="button" aria-label="Visa eller göm meny för redigering av nyckelord och texter">
-        </div>
         <div class="innehall" aria-hidden="true">
             <div class="input">
 
@@ -40,8 +63,10 @@
 
                 <form action="#" class="input-form form-nyckelord" aria-hidden="false">
                     <div>
-                        <label for="kategori">Kategori</label>
+                        <label for="kategori">Kategori</label><i class="fas fa-plus-circle"
+                            title="Lägg till ny kategori"></i>
                         <select name="kategori" id="kategori"></select>
+
                     </div>
                     <div>
                         <label for="nyckelord">Nyckelord</label>
@@ -72,18 +97,6 @@
         </div>
     </section>
 
-
-    <section class="val">
-
-        <div class="hamtaAnnonsContainer">
-            <label class="annonsId-label" for="annonsId">Fyll i id eller URL från <a
-                    href="https://arbetsformedlingen.se/platsbanken/" target="_blank">Arbetsförmedlingen</a></label><br>
-            <input type="text" id="annonsId" class="annonsId" placeholder="ID / URL">
-            <button class="hamtaAnnons" title="Uppdatera allt"><i class="fas fa-pen-alt"></i></button>
-        </div>
-        <button class="clear-data">Rensa lokal data</button>
-        <button class="test-user">Skapa testanvändare Front</button>
-    </section>
     <section class="sida" contenteditable="true">
         <header>
             <span class="foretagsNamn">tom</span>
@@ -93,36 +106,7 @@
         <h1 class="rubrik">Rubrik</h1>
 
         <div class="brodText">
-
-            <!-- <article class="ommig">
-                <span class="beskrivning">Om Mig</span>
-                <div class="text"></div>
-            </article>
-
-            <article class="egenskaper">
-                <span class="beskrivning">egenskaper</span>
-                <div class="text"></div>
-            </article>
-
-            <article class="erfarenheter">
-                <span class="beskrivning">erfarenheter</span>
-                <div class="text"></div>
-            </article>
-
-            <article class="kunskaper">
-                <span class="beskrivning">kunskaper</span>
-                <div class="text"></div>
-            </article>
-
-            <article class="flytt">
-                <span class="beskrivning">flytt</span>
-                <div class="text"></div>
-            </article>
-
-            <article class="halsning">
-                <span class="beskrivning">hälsning</span>
-                <div class="text"></div>
-            </article> -->
+            <!-- Fylls i via JS -->
 
         </div>
 

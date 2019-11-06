@@ -3,7 +3,7 @@
 // ALLMÄNNA
 function removeChildren(parent) {
     const listChildren = parent.children
-    for (let i = listChildren.length - 1; i > 0; i--) {
+    for (let i = listChildren.length - 1; i >= 0; i--) {
         parent.removeChild(listChildren[i])
     }
 }
@@ -38,22 +38,32 @@ function updateBrev(brev) {
 
     // TODO: modulera/separera?
 
-    // header - fotnoter
     const {
         foretagsNamn,
         jobbtitel,
-        markning
+        markning,
+        ansok,
+        deadline,
+        originalAnnons
     } = brev.text.annonsUppgifter
 
+    // Uppdaterar "verktygsdelen" - ansök, besök annons och deadline
+    document.querySelector(".sistaAnsokDag").textContent = deadline.split("T")[0]
+    document.querySelector(".ansok").setAttribute("href", ansok)
+    document.querySelector(".besokAnnons").setAttribute("href", originalAnnons)
+
+    // header - fotnoter
     document.querySelector(".foretagsNamn").textContent = foretagsNamn
     document.querySelector(".jobbtitel").textContent = jobbtitel
     document.querySelector(".markning").textContent = `Referens: "${markning}"`
 
     //rubrik
-    document.querySelector(".rubrik").textContent = brev.text.grunduppgifter.rubrik
+    document.querySelector(".rubrik").textContent = brev.text.grunduppgifter.rubrik.toCapitalized()
 
     // huvudsakliga texten
     const brodText = document.querySelector(".brodText")
+    removeChildren(brodText) //Tömmer allt
+
 
     for (const kat in brev.text.kategorier) {
 
@@ -82,15 +92,14 @@ function updateBrev(brev) {
     }
 
     // hälsningsfras m namn
-
     const halsningsfras = document.createElement("span")
     halsningsfras.className = "halsningsfras"
-    halsningsfras.textContent = brev.text.grunduppgifter.halsning
+    halsningsfras.textContent = brev.text.grunduppgifter.halsning.toCapitalized()
     const br = document.createElement("br")
 
     const namn = document.createElement("span")
     namn.className = "halsning-namn"
-    namn.textContent = brev.text.grunduppgifter.namn
+    namn.textContent = brev.text.grunduppgifter.namn.toCapitalized()
 
     brodText.append(halsningsfras, br, namn)
 
@@ -104,4 +113,13 @@ function updateBrev(brev) {
     document.querySelector(".kontakt").textContent = kontaktuppgifter
     document.querySelector(".sidnr").textContent = "sida 1 av 1" //TODO: gör ev dynamisk
 
+}
+
+function showModal(triggerElement) {
+    // TODO: lägga till tabordning ev ta tabindex="-1" när modals är gömda
+
+    const malKlass = triggerElement.dataset.controls
+    const malElement = document.querySelector("." + malKlass)
+    const hidden = JSON.parse(malElement.dataset.hidden)
+    malElement.dataset.hidden = !hidden
 }

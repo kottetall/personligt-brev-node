@@ -1,5 +1,8 @@
 "use strict"
 
+// Lägger till möjligheten att starta ord/meningar med stor bokstav
+String.prototype.toCapitalized = toCapitalized
+
 window.onload = () => {
 
     // hämtar ev sparade anv.uppgifter
@@ -7,14 +10,21 @@ window.onload = () => {
     anvandare.grab()
     // TESTDEL
     //FIXME:
+
     console.log(anvandare)
     let annons = new Annons(exempelAnnons)
-    // annons.nyAnnons(exempelAnnons)
-    annons.unikaAnnonsOrd(anvandare.information.nyckelord)
-    // annons.saveLocal(annons.serverAnnons)
+    annons.nyAnnons(exempelAnnons)
+    if (anvandare.information) {
+        annons.anvandarensNyckelord(anvandare.information.nyckelord)
+    }
+
+
+    annons.saveLocal(annons.serverAnnons)
     const brev = new PersonligtBrev()
-    brev.createText(anvandare, annons)
-    updateBrev(brev)
+    if (anvandare.information) {
+        brev.createText(anvandare, annons)
+        updateBrev(brev)
+    }
     console.log(annons)
     console.log(brev)
     //FIXME:
@@ -24,6 +34,14 @@ window.onload = () => {
     if (anvandare.information) {
         updateUppgifterModal(anvandare)
     }
+
+    document.querySelector(".innehall .fa-plus-circle").addEventListener("click", (e) => {
+        let nyKategori = prompt("Vad ska den nya kategorin heta?").trim().toLowerCase()
+        anvandare.information.kategorier.push(nyKategori)
+        anvandare.saveLocal()
+        console.log(`${nyKategori} har lagts till som kategori`)
+        updateUppgifterModal(anvandare)
+    })
 
     document.querySelector("#anvandarUppgiftTyp").addEventListener("change", (e) => {
         //TODO: slå ihop med nedan
@@ -45,15 +63,25 @@ window.onload = () => {
             nyckelord,
             text
         } = anvandare.information
+        const kategoriElement = document.querySelector("#kategori")
+
         if (nyckelord[rutText]) {
             document.querySelector("#brodText").value = text[nyckelord[rutText]["id"]]
+            kategoriElement.value = nyckelord[rutText]["kategorier"]
         } else {
             document.querySelector("#brodText").value = ""
+
+            // Ändrar tillbaka till tidigare vald kategori ifall man ändrar sig
+            if (kategoriElement.dataset["tidigareKategori"]) {
+                kategoriElement.value = kategoriElement.dataset["tidigareKategori"]
+            } else {
+                kategoriElement.dataset["tidigareKategori"] = kategoriElement.value
+            }
         }
     })
 
     document.querySelector("#uppdateraAnvandaruppgifter").addEventListener("click", (e) => {
-        e.preventDefault() //TODO: Nödv ändig?
+        e.preventDefault() //TODO: Nödvändig?
         const anvandarUppgiftTyp = document.querySelector("#anvandarUppgiftTyp").value.toLowerCase()
         const anvandarUppgiftText = document.querySelector("#anvandarUppgiftText").value.toLowerCase()
         let brodText = document.querySelector("#brodText").value
@@ -92,23 +120,32 @@ window.onload = () => {
             }
         }
         anvandare.addKeyWord(nyckelOrd, kategori, brodText)
+        annons.anvandarensNyckelord(anvandare.information.nyckelord) //TODO: lägg samman dessa så det räcker med en funktion för att göra alla nödvändiga uppdateringar
         updateUppgifterModal(anvandare)
+        brev.createText(anvandare, annons)
+        updateBrev(brev)
         console.log("användardatan har uppdaterats")
     })
 
-
-
-    const showHide = document.querySelectorAll(".showHide")
-    for (const sh of showHide) {
-        sh.addEventListener("click", (e) => {
-            const hidden = JSON.parse(e.target.parentElement.dataset.hidden) //för att göra sträng till bool
-            e.target.parentElement.dataset.hidden = !hidden //gömmer hela modal
-            e.target.nextElementSibling.setAttribute("aria-hidden", !hidden) // ändrar aria för innehållsdiv i modal
+    const ikoner = document.querySelectorAll(".val .ikonhallare")
+    for (const ikon of ikoner) {
+        ikon.addEventListener("click", () => showModal(ikon))
+        ikon.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") {
+                showModal(ikon)
+            }
         })
     }
 
-    document.querySelector(".hamtaAnnons").addEventListener("click", hanteraAnnons) //TODO: lägg till hantering för ENTER
 
+
+
+    document.querySelector(".hamtaAnnons").addEventListener("click", hanteraAnnons) //TODO: lägg till hantering för ENTER
+    document.querySelector(".hamtaAnnonsContainer").addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+            hanteraAnnons()
+        }
+    })
 
     document.querySelector(".input h3").addEventListener("click", (e) => {
         const mal = e.target
@@ -132,5 +169,5 @@ window.onload = () => {
 
 // *** TEST *** //TODO:
 
-document.querySelector(".test-user").addEventListener("click", skapaLokalTestAnvandare)
-document.querySelector(".clear-data").addEventListener("click", rensaLokalTestAnvandare)
+// document.querySelector(".test-user").addEventListener("click", skapaLokalTestAnvandare)
+// document.querySelector(".clear-data").addEventListener("click", rensaLokalTestAnvandare)

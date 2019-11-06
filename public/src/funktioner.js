@@ -8,6 +8,10 @@ if (typeof module !== "undefined") {
     }
 }
 
+function toCapitalized() {
+    return this.replace(/^\w/, this.substring(0, 1).toUpperCase())
+}
+
 function SetFetchOptions(body) {
     // let errorExists = false
     if (typeof body !== "object") {
@@ -50,7 +54,7 @@ function User() {
     }
 
     this.addKeyWord = (nyckel, kategori, text) => {
-        const id = Date.now()
+        const id = Date.now() //FIXME: fixa en uppdateringsfunktion, som det är nu skapas en ny post med ett nytt id
         if (!this.information.kategorier.includes(kategori)) {
             this.information.kategorier.push(kategori)
         }
@@ -79,15 +83,15 @@ function Annons(serverAnnons) {
     this.nyAnnons = (nyAnnons) => {
         this.serverAnnons = nyAnnons
         this.saveLocal(this.serverAnnons)
+        this.hittadeNyckelord = []
     }
 
-    this.unikaAnnonsOrd = (anvandareNyckelordObjekt) => {
-        const anvandareNyckelordArray = Object.entries(anvandareNyckelordObjekt)
-        this.gemensammaOrd = anvandareNyckelordArray.filter(ord => {
-            if (this.serverAnnons.enskildaAnnonsOrd.includes(ord[0])) {
-                return ord
+    this.anvandarensNyckelord = (nyckelordsObjekt) => {
+        for (const nyckel in nyckelordsObjekt) {
+            if (this.serverAnnons.annonsen.description.text.toLowerCase().includes(nyckel)) {
+                this.hittadeNyckelord.push([nyckel, nyckelordsObjekt[nyckel]])
             }
-        })
+        }
     }
 
     this.grab = () => {
@@ -111,8 +115,9 @@ function PersonligtBrev() {
     }
 
     this.createText = (anvandare, annons) => {
+        this.text.kategorier = {} // för att inte skapa dubbletter vid uppdatering av ord samtidigt som en annons är uppe
 
-        for (const ordData of annons.gemensammaOrd) {
+        for (const ordData of annons.hittadeNyckelord) {
             const [ord, ordMeta] = ordData //för läsbarhet
             const kategori = ordMeta.kategorier //för läsbarhet
 
@@ -129,7 +134,8 @@ function PersonligtBrev() {
         this.text.annonsUppgifter.jobbtitel = annonsen.headline //kan behöva ändras till någon annan del av annonsen
         this.text.annonsUppgifter.markning = annonsen.application_details.reference
         this.text.annonsUppgifter.ansok = annonsen.application_details.url
-
+        this.text.annonsUppgifter.deadline = annonsen.application_deadline
+        this.text.annonsUppgifter.originalAnnons = annonsen.webpage_url
     }
 }
 
@@ -149,4 +155,12 @@ async function hanteraAnnons() {
     const svar = await data.json()
     const annons = new Annons(svar)
     console.log(annons)
+}
+
+function test(string) {
+    //FIXME: Exempel på hur man kan göra ett testRegex av de nyckelord som läggs in. t.ex kan man göra så att mellanrum och "-" kan sökas samtidigt så att "office-paketet", "officepaketet" och "office paketet" ger utslag
+
+    const prov = "e"
+    const regEx = new RegExp(`${prov}`, "g")
+
 }

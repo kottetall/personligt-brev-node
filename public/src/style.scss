@@ -1,5 +1,3 @@
-$showHide-button-size: 50px;
-
 * {
     margin: 0;
     padding: 0;
@@ -108,8 +106,6 @@ article {
 
     &[data-hidden=true] {
         position: fixed;
-        width: $showHide-button-size;
-        height: $showHide-button-size;
         padding: 0;
         top: 0;
         left: 0;
@@ -124,6 +120,10 @@ article {
 
     & ul {
         list-style: none;
+
+        & .container-sistaAnsokDag {
+            color: #fff;
+        }
 
         & li {
             position: relative;
@@ -165,8 +165,6 @@ article {
 
     &[data-hidden=true] {
         position: fixed;
-        width: $showHide-button-size;
-        height: $showHide-button-size;
         transform: translate(50%, 50%);
         top: auto;
         left: auto;
@@ -200,6 +198,10 @@ article {
         margin-top: 20px;
         font-style: italic;
     }
+
+    & .fa-plus-circle {
+        margin-left: 5px;
+    }
 }
 
 .input-rubrik.not-active {
@@ -216,60 +218,6 @@ article {
     display: none;
 }
 
-.showHide {
-    height: $showHide-button-size;
-    width: $showHide-button-size;
-    position: absolute;
-    cursor: pointer;
-
-    &::after {
-        content: "<"; //TODO: tillfällig lösning
-        position: absolute;
-        font-size: 25px;
-    }
-
-    &:hover:after {
-        font-size: 30px;
-    }
-
-
-    .uppgifter[data-hidden=false] &,
-    .verktyg[data-hidden=true] & {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1));
-        bottom: 0;
-        right: 0;
-
-        &::after {
-            bottom: 0px;
-            right: 4px;
-            transform: rotateZ(-135deg);
-        }
-
-        &:hover {
-            border-right: 1px solid #ffffffe0;
-            border-bottom: 1px solid #ffffffe0;
-        }
-    }
-
-    .uppgifter[data-hidden=true] &,
-    .verktyg[data-hidden=false] & {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0)50%);
-        top: 0;
-        left: 0;
-
-        &::after {
-            top: -2px;
-            left: 4px;
-            transform: rotateZ(45deg);
-        }
-
-        &:hover {
-            border-left: 1px solid #ffffffe0;
-            border-top: 1px solid #ffffffe0;
-        }
-    }
-}
-
 .jobbtitel,
 .kontakt {
     text-align: center;
@@ -281,8 +229,24 @@ article {
 }
 
 .val {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     margin: 2vh auto;
-    text-align: center;
+
+    & .ikonhallare {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        color: #fff;
+        border: 1px solid #444;
+
+        &:hover,
+        &:focus {
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    }
 
     &>button,
     &>div {
@@ -309,6 +273,7 @@ article {
     width: 40px;
     border-radius: 10px;
     background: #1a84ff;
+    // position: absolute;
 
     &:hover {
         border: 1px solid #000;
