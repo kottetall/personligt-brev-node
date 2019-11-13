@@ -137,6 +137,13 @@ window.onload = () => {
         })
     }
 
+    const stanga = document.querySelectorAll(".fa-times-circle")
+    for (const stang of stanga) {
+        stang.addEventListener("click", (e) => {
+            stangModal(e.target.parentElement)
+        })
+    }
+
 
 
 

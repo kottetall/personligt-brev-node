@@ -96,13 +96,28 @@ article {
   border: 1px solid #000;
 }
 
-.verktyg {
+.fa-times-circle {
   position: absolute;
-  padding: 0 21px;
-  top: 0vh;
-  z-index: 5;
+  right: 5px;
+  top: 5px;
+}
+
+.fa-times-circle:hover, .fa-times-circle:focus {
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  max-width: 60vw;
+  padding: 20px;
   background: #000;
-  border-radius: 0 10px 10px 0;
+  color: #fff;
+  border-radius: 10px;
+  z-index: 2000;
 }
 
 .verktyg[data-hidden=true] {
@@ -127,6 +142,14 @@ article {
   color: #fff;
 }
 
+.verktyg ul .container-sistaAnsokDag:hover, .verktyg ul .container-sistaAnsokDag:focus {
+  text-decoration: none;
+}
+
+.verktyg ul .container-sistaAnsokDag .sistaAnsokDag {
+  font-weight: bold;
+}
+
 .verktyg ul li {
   position: relative;
   text-align: center;
@@ -146,32 +169,14 @@ article {
   border-radius: 10px;
 }
 
-.uppgifter {
-  position: fixed;
-  top: 50vh;
-  left: 50vw;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  max-width: 60vw;
-  padding: 20px;
-  background: #000;
-  color: #fff;
-  border-radius: 10px;
-  z-index: 2000;
-}
-
 .uppgifter[data-hidden=false] {
   min-width: 350px;
 }
 
 .uppgifter[data-hidden=true] {
   position: fixed;
-  -webkit-transform: translate(50%, 50%);
-          transform: translate(50%, 50%);
-  top: auto;
-  left: auto;
-  bottom: 0;
-  right: 0;
+  top: 101vh;
+  left: 101vw;
   overflow: hidden;
 }
 
@@ -294,12 +299,14 @@ article {
   outline: none;
   background: #fff;
   position: relative;
-  height: 297mm;
-  width: 210mm;
-  padding: 2.5cm;
   border: 1px solid #444;
   overflow: hidden;
   margin: 0 auto;
+  max-height: 297mm;
+  max-width: 210mm;
+  min-height: 100vh;
+  width: 80vw;
+  padding: 5vw;
 }
 
 .beskrivning {
@@ -371,6 +378,11 @@ article {
 @media print {
   body * {
     visibility: hidden;
+  }
+  .sida {
+    height: 297mm;
+    width: 210mm;
+    padding: 2.5cm;
   }
   .sida,
   .sida * {

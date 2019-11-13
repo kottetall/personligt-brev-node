@@ -96,14 +96,31 @@ article {
     }
 }
 
-.verktyg {
+.fa-times-circle {
     position: absolute;
-    padding: 0 21px;
-    top: 0vh;
-    z-index: 5;
-    background: #000;
-    border-radius: 0 10px 10px 0;
+    right: 5px;
+    top: 5px;
 
+    &:hover,
+    &:focus {
+        cursor: pointer;
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    max-width: 60vw;
+    padding: 20px;
+    background: #000;
+    color: #fff;
+    border-radius: 10px;
+    z-index: 2000; //FIXME:
+}
+
+.verktyg {
     &[data-hidden=true] {
         position: fixed;
         padding: 0;
@@ -123,6 +140,15 @@ article {
 
         & .container-sistaAnsokDag {
             color: #fff;
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+            }
+
+            & .sistaAnsokDag {
+                font-weight: bold;
+            }
         }
 
         & li {
@@ -148,28 +174,17 @@ article {
 }
 
 .uppgifter {
-    position: fixed;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
-    max-width: 60vw;
-    padding: 20px;
-    background: #000;
-    color: #fff;
-    border-radius: 10px;
-    z-index: 2000; //FIXME:
-
     &[data-hidden=false] {
         min-width: 350px;
     }
 
     &[data-hidden=true] {
         position: fixed;
-        transform: translate(50%, 50%);
-        top: auto;
-        left: auto;
-        bottom: 0;
-        right: 0;
+        // transform: translate(50%, 50%);
+        // top: auto;
+        // left: auto;
+        top: 101vh;
+        left: 101vw;
         overflow: hidden;
     }
 
@@ -285,12 +300,14 @@ article {
     outline: none;
     background: #fff;
     position: relative;
-    height: 297mm;
-    width: 210mm;
-    padding: 2.5cm;
     border: 1px solid #444;
     overflow: hidden;
     margin: 0 auto;
+    max-height: 297mm;
+    max-width: 210mm;
+    min-height: 100vh;
+    width: 80vw;
+    padding: 5vw;
 }
 
 .beskrivning {
@@ -366,10 +383,17 @@ article {
         visibility: hidden;
     }
 
+    .sida {
+        height: 297mm;
+        width: 210mm;
+        padding: 2.5cm;
+    }
+
     .sida,
     .sida * {
         visibility: visible;
         border: none;
+
     }
 
     .motivering:hover .forklaring {

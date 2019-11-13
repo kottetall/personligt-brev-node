@@ -157,6 +157,10 @@ async function hanteraAnnons() {
     console.log(annons)
 }
 
+function stangModal(parent) {
+    parent.dataset.hidden = true
+}
+
 function test(string) {
     //FIXME: Exempel på hur man kan göra ett testRegex av de nyckelord som läggs in. t.ex kan man göra så att mellanrum och "-" kan sökas samtidigt så att "office-paketet", "officepaketet" och "office paketet" ger utslag
 
