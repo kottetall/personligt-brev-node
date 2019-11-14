@@ -109,28 +109,45 @@ article {
 
 .modal {
     position: fixed;
-    top: 50vh;
+    top: 15vh;
+    // top: 50vh;
     left: 50vw;
-    transform: translate(-50%, -50%);
-    max-width: 60vw;
+    transform: translate(-50%, 0);
+    max-width: 80vw;
     padding: 20px;
     background: #000;
     color: #fff;
     border-radius: 10px;
     z-index: 2000; //FIXME:
+
+    &[data-hidden=true] {
+        left: 201vw;
+        transform: translate(0);
+    }
+
+    &[data-hidden=false] {
+        min-width: 350px;
+    }
+
+    & form div {
+        margin: 10px 0;
+    }
+
+    & input,
+    & textarea,
+    & select {
+        display: block;
+        padding: 5px;
+        min-width: 300px;
+        border-radius: 10px;
+    }
+
+    & hr {
+        margin: 10px;
+    }
 }
 
 .verktyg {
-    &[data-hidden=true] {
-        position: fixed;
-        padding: 0;
-        top: 0;
-        left: 0;
-        bottom: auto;
-        right: auto;
-        overflow: hidden;
-    }
-
     &[data-hidden=true] ul {
         display: none;
     }
@@ -174,39 +191,9 @@ article {
 }
 
 .uppgifter {
-    &[data-hidden=false] {
-        min-width: 350px;
-    }
-
-    &[data-hidden=true] {
-        position: fixed;
-        // transform: translate(50%, 50%);
-        // top: auto;
-        // left: auto;
-        top: 101vh;
-        left: 101vw;
-        overflow: hidden;
-    }
 
     &[data-hidden=true] .innehall {
         display: none;
-    }
-
-    & form div {
-        margin: 10px 0;
-    }
-
-    & input,
-    & textarea,
-    & select {
-        display: block;
-        padding: 5px;
-        min-width: 300px;
-        border-radius: 10px;
-    }
-
-    & hr {
-        margin: 10px;
     }
 
     & .textNuvarande {
@@ -288,7 +275,6 @@ article {
     width: 40px;
     border-radius: 10px;
     background: #1a84ff;
-    // position: absolute;
 
     &:hover {
         border: 1px solid #000;
@@ -369,7 +355,7 @@ article {
         transition: background 0.25s ease;
 
         & .forklaring {
-            display: inline; //FIXME: funkar inte som i prototypen
+            display: inline;
         }
     }
 }
@@ -387,6 +373,9 @@ article {
         height: 297mm;
         width: 210mm;
         padding: 2.5cm;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     .sida,
@@ -406,13 +395,5 @@ article {
 
     .tom {
         display: none;
-    }
-
-    .sida {
-        position: absolute;
-        top: 0;
-        left: 0;
-        /* oklart varför förändringen nedan behövs */
-        height: 315mm;
     }
 }

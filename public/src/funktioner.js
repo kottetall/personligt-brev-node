@@ -28,14 +28,15 @@ function SetFetchOptions(body) {
 
 function User() {
     // TODO: kopiera el skapa motsvarivghet på server
-    this.create = (namn) => {
+    this.create = () => {
         this.information = {
             grunduppgifter: {
-                kontaktuppgifter: "",
+                mailadress: "",
+                telefonnummer: "",
                 hemsida: "",
                 rubrik: "",
                 halsning: "",
-                namn: namn
+                namn: ""
             },
             kategorier: [
                 "om",

@@ -108,11 +108,11 @@ article {
 
 .modal {
   position: fixed;
-  top: 50vh;
+  top: 15vh;
   left: 50vw;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  max-width: 60vw;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  max-width: 80vw;
   padding: 20px;
   background: #000;
   color: #fff;
@@ -120,14 +120,31 @@ article {
   z-index: 2000;
 }
 
-.verktyg[data-hidden=true] {
-  position: fixed;
-  padding: 0;
-  top: 0;
-  left: 0;
-  bottom: auto;
-  right: auto;
-  overflow: hidden;
+.modal[data-hidden=true] {
+  left: 201vw;
+  -webkit-transform: translate(0);
+          transform: translate(0);
+}
+
+.modal[data-hidden=false] {
+  min-width: 350px;
+}
+
+.modal form div {
+  margin: 10px 0;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+  display: block;
+  padding: 5px;
+  min-width: 300px;
+  border-radius: 10px;
+}
+
+.modal hr {
+  margin: 10px;
 }
 
 .verktyg[data-hidden=true] ul {
@@ -169,36 +186,8 @@ article {
   border-radius: 10px;
 }
 
-.uppgifter[data-hidden=false] {
-  min-width: 350px;
-}
-
-.uppgifter[data-hidden=true] {
-  position: fixed;
-  top: 101vh;
-  left: 101vw;
-  overflow: hidden;
-}
-
 .uppgifter[data-hidden=true] .innehall {
   display: none;
-}
-
-.uppgifter form div {
-  margin: 10px 0;
-}
-
-.uppgifter input,
-.uppgifter textarea,
-.uppgifter select {
-  display: block;
-  padding: 5px;
-  min-width: 300px;
-  border-radius: 10px;
-}
-
-.uppgifter hr {
-  margin: 10px;
 }
 
 .uppgifter .textNuvarande {
@@ -383,6 +372,9 @@ article {
     height: 297mm;
     width: 210mm;
     padding: 2.5cm;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .sida,
   .sida * {
@@ -397,13 +389,6 @@ article {
   }
   .tom {
     display: none;
-  }
-  .sida {
-    position: absolute;
-    top: 0;
-    left: 0;
-    /* oklart varför förändringen nedan behövs */
-    height: 315mm;
   }
 }
 /*# sourceMappingURL=style.css.map */

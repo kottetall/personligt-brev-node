@@ -81,6 +81,7 @@ window.onload = () => {
     })
 
     document.querySelector("#uppdateraAnvandaruppgifter").addEventListener("click", (e) => {
+        // uppdaterar grunduppgifter - kontaktuppgifter etc
         e.preventDefault() //TODO: Nödvändig?
         const anvandarUppgiftTyp = document.querySelector("#anvandarUppgiftTyp").value.toLowerCase()
         const anvandarUppgiftText = document.querySelector("#anvandarUppgiftText").value.toLowerCase()
@@ -103,6 +104,7 @@ window.onload = () => {
     })
 
     document.querySelector("#uppdatera").addEventListener("click", (e) => {
+        //uppdaterar nyckelord
         e.preventDefault() //TODO: Nödv ändig?
         const kategori = document.querySelector("#kategori").value.toLowerCase()
         const nyckelOrd = document.querySelector("#nyckelord").value.toLowerCase()
@@ -140,14 +142,11 @@ window.onload = () => {
     const stanga = document.querySelectorAll(".fa-times-circle")
     for (const stang of stanga) {
         stang.addEventListener("click", (e) => {
-            stangModal(e.target.parentElement)
+            stangModal(stang.parentElement)
         })
     }
 
-
-
-
-    document.querySelector(".hamtaAnnons").addEventListener("click", hanteraAnnons) //TODO: lägg till hantering för ENTER
+    document.querySelector(".hamtaAnnons").addEventListener("click", hanteraAnnons)
     document.querySelector(".hamtaAnnonsContainer").addEventListener("keyup", (e) => {
         if (e.key === "Enter") {
             hanteraAnnons()
@@ -169,6 +168,26 @@ window.onload = () => {
             syskonForm.setAttribute("aria-hidden", true)
         }
     })
+
+    document.querySelector("#skapaNyAnvandare").addEventListener("click", (e) => {
+        e.preventDefault()
+        if (!anvandare.information) {
+            anvandare.create()
+        }
+        const inputs = document.querySelectorAll(".form-nyAnvandare input")
+        for (const input of inputs) {
+            if (input.name !== "losenord")
+                if (input.value) {
+                    anvandare.addGrunduppgift(input.name, input.value)
+                }
+        }
+
+        brev.createText(anvandare, annons)
+        updateBrev(brev)
+        stangModal(e.target.parentElement.parentElement.parentElement) //TODO: snygga till!
+
+    })
+
 }
 
 

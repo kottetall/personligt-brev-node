@@ -110,7 +110,7 @@ function updateBrev(brev) {
     } = brev.text.grunduppgifter
 
     document.querySelector(".egenSida").textContent = hemsida
-    document.querySelector(".kontakt").textContent = kontaktuppgifter
+    document.querySelector(".kontakt").textContent = "funktionen är ännu inte tillagd"
     document.querySelector(".sidnr").textContent = "sida 1 av 1" //TODO: gör ev dynamisk
 
 }
@@ -118,8 +118,19 @@ function updateBrev(brev) {
 function showModal(triggerElement) {
     // TODO: lägga till tabordning ev ta tabindex="-1" när modals är gömda
 
+    const modals = document.querySelectorAll(".modal")
+
+
     const malKlass = triggerElement.dataset.controls
     const malElement = document.querySelector("." + malKlass)
     const hidden = JSON.parse(malElement.dataset.hidden)
-    malElement.dataset.hidden = !hidden
+
+
+    for (const modal of modals) {
+        if (modal === malElement) {
+            malElement.dataset.hidden = !hidden
+        } else {
+            modal.dataset.hidden = true
+        }
+    }
 }

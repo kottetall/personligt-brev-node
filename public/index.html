@@ -32,6 +32,13 @@
             <i class="fas fa-2x fa-cog"></i>
             Ändra
         </div>
+        <div class="ikonhallare" data-controls="nyAnvandare" role="button"
+            aria-label="Visa eller göm meny för redigering av nyckelord och texter" tabindex="0">
+            <i class="fas fa-2x fa-user-plus"></i>
+            Skapa ny
+        </div>
+
+
         <!-- <button class="clear-data">Rensa lokal data</button>
         <button class="test-user">Skapa testanvändare Front</button> -->
 
@@ -90,14 +97,55 @@
                     </div>
                     <div>
                         <label for="anvandarUppgiftText">Text</label>
-                        <textarea name="anvandarUppgiftText" id="anvandarUppgiftText"
-                            placeholder="Här fyller du i dina uppgifter" rows="4"></textarea>
+                        <input type="text" name="anvandarUppgiftText" id="anvandarUppgiftText"
+                            placeholder="Här fyller du i dina uppgifter"></input>
                     </div>
                     <button id="uppdateraAnvandaruppgifter">Uppdatera</button>
                 </form>
             </div>
         </div>
     </section>
+
+    <section class="nyAnvandare modal" data-hidden="true">
+        <i class="far fa-2x fa-times-circle"></i>
+        <div class="innehall" aria-hidden="true">
+            <form action="#" method="POST" class="input-form form-nyAnvandare" aria-hidden="true" autocomplete="on">
+                <div>
+                    <label for="namn">Ditt namn*</label>
+                    <input type="text" name="namn" id="namn">
+                </div>
+                <div>
+                    <label for="mail">Din mailadress*</label>
+                    <input type="email" name="mail" id="mail">
+                </div>
+
+                <div>
+                    <label for="losenord">Ditt önskade lösenord*</label>
+                    <input type="password" name="losenord" id="losenord">
+                </div>
+                <hr>
+                <div>
+                    <label for="telefonnummer">Ditt telefonnummer</label>
+                    <input type="number" name="telefonnummer" id="telefonnummer">
+                </div>
+                <div>
+                    <label for="hemsida">Din hemsida</label>
+                    <input type="text" name="hemsida" id="hemsida">
+                </div>
+                <div>
+                    <label for="rubrik">Din standardrubrik</label>
+                    <input type="text" name="rubrik" id="rubrik">
+                </div>
+                <div>
+                    <label for="halsning">Din standardhälsning</label>
+                    <input type="text" name="halsning" id="halsning">
+                </div>
+                <button id="skapaNyAnvandare">Skapa</button>
+            </form>
+        </div>
+    </section>
+
+
 
     <section class="sida" contenteditable="true">
         <header>
