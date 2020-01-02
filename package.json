@@ -4,8 +4,7 @@
   "description": "Ett mallsystem som skapar frön till personliga brev, baserat på annonsen",
   "main": "index.js",
   "scripts": {
-    "startBack": "nodemon index.js",
-    "startFront": "cd public && live-server",
+    "start": "nodemon index.js",
     "test": "jest"
   },
   "keywords": [
